@@ -1,11 +1,10 @@
 import asyncio
-import json
 import discord
 import os
 from discord.ext import commands
+from Basic_bot.Core import loadjson
 
-with open('./config.json', 'r', encoding='UTF-8') as jf:
-    jdata = json.load(jf)
+jdata = loadjson.load()
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -14,6 +13,24 @@ async def setup_hook():
     for Filename in os.listdir('./cmds'):
         if Filename.endswith('.py'):
             await client.load_extension(f'cmds.{Filename[:-3]}')
+
+
+@client.command(name='load')
+async def load(ctx, extension):
+    await client.load_extension(f'cmds.{extension}')
+    await ctx.send(f'{extension} loaded')
+
+
+@client.command(name='unload')
+async def unload(ctx, extension):
+    await client.unload_extension(f'cmds.{extension}')
+    await ctx.send(f'{extension} unloaded')
+
+
+@client.command(name='reload')
+async def reload(ctx, extension):
+    await client.reload_extension(f'cmds.{extension}')
+    await ctx.send(f'{extension} re-loaded')
 
 
 @client.event
