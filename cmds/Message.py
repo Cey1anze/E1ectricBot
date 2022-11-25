@@ -32,7 +32,7 @@ class Message(InitCog):
 
         # bot responds after entering specific content
         reply1 = reply[msg.content]
-        if reply is not None:
+        if reply is not None and msg.author != self.client.user:
             await msg.channel.send(reply1)
 
 
