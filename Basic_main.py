@@ -4,11 +4,12 @@ import os
 from discord.ext import commands
 from Basic_bot.Core import loadjson
 
-jdata = loadjson.load()
+jdata = loadjson.load_mainconfig()
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
 
+# read cogs from cmds and load them
 async def setup_hook():
     for Filename in os.listdir('./cmds'):
         if Filename.endswith('.py'):
