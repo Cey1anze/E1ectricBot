@@ -27,7 +27,7 @@ class Message(InitCog):
         # Delete messages with keyword in blockwords(trash words or whatever u want)
         if any(word in msg.content for word in keyword) and msg.author != self.client.user:
             await msg.channel.purge(limit=1)
-            await msg.channel.send(f'不要说垃圾话')
+            await msg.channel.send(f'不要说脏话')
 
         # bot responds after entering specific content
         reply1 = reply[msg.content]
