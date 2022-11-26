@@ -1,8 +1,7 @@
 import discord
 from discord.ext import commands
 from Basic_bot.Core.init_cog import InitCog
-from Basic_bot.Core.loadjson import load_replyconfig,load_blockwordconfig
-
+from Basic_bot.Core.loadjson import load_replyconfig, load_blockwordconfig
 
 keyword = load_blockwordconfig()
 reply = load_replyconfig()
