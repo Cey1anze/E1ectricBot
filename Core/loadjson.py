@@ -2,7 +2,7 @@ import json
 
 
 def load_mainconfig():
-    with open('./configs/config.json', 'r', encoding='UTF-8') as jf:
+    with open('./config.json', 'r', encoding='UTF-8') as jf:
         jdata = json.load(jf)
         return jdata
 
