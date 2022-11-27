@@ -11,12 +11,14 @@ class Message(InitCog):
 
     # clean messages
     @commands.command(name='clean', help='Delete a specific number of messages')
+    @commands.is_owner()
     async def clean(self, ctx, num: int):
         await ctx.channel.purge(limit=num + 1)
         await ctx.send(f'{num} 条消息已被删除')
 
     # Turn the message sent from bot
     @commands.command(name='resay', help='Sending messages as robots')
+    @commands.is_owner()
     async def resay(self, ctx, *, msg):
         await ctx.message.delete()
         await ctx.send(msg)
