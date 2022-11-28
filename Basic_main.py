@@ -3,6 +3,8 @@ import discord
 import os
 from discord.ext import commands
 from Basic_bot.Core import loadjson
+import Basic_bot.Core.webserver
+from Basic_bot.Core.webserver import keep_alive
 
 jdata = loadjson.load_mainconfig()
 
@@ -70,6 +72,10 @@ async def on_ready():
 async def main():
     await setup_hook()
     await client.start(jdata['Token'])
+
+
+# if you want bot hosting 24/7,dis-annotated next line,and put whole program into replit
+# keep_alive()
 
 
 asyncio.run(main())
