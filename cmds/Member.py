@@ -20,18 +20,21 @@ class Member(InitCog):
         if arg1:  # remove from old-role and join new-role
             await arg.remove_roles(oldrole)
             await arg.add_roles(newrole)
-            await ctx.send(f'{arg} already removed from {oldrole} and joined {newrole}')
+            await ctx.send(embed=discord.Embed(description=f'{arg} 已从 {oldrole} 移除，并加入到 {newrole}',
+                                               colour=discord.Color.from_rgb(130, 156, 242)))
         else:  # dont remove other
             await arg.add_roles(newrole)
-            await ctx.send(f'{arg} already joined {newrole}')
+            await ctx.send(embed=discord.Embed(description=f'{arg} 已加入到 {newrole}',
+                                               colour=discord.Color.from_rgb(130, 156, 242)))
 
     # kick member by command,example: ?kick @user
     @commands.command(name='kick', help='kick member from guild')
     @commands.is_owner()
-    async def kickmember(self, ctx, member: discord.Member, *, reason: str):
+    async def kickmember(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         await ctx.channel.purge(limit=1)
-        await ctx.send(f'{member} kicked,reason:{reason}')
+        await ctx.send(embed=discord.Embed(description=f'{member} 已被踢出，原因:{reason}',
+                                           colour=discord.Color.from_rgb(130, 156, 242)))
 
     # ban member by command,example: ?ban @user
     @commands.command(name='ban', help='ban member from guild')
@@ -39,7 +42,8 @@ class Member(InitCog):
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
         await ctx.channel.purge(limit=1)
-        await ctx.send(f'{member} banned,reason:{reason}')
+        await ctx.send(embed=discord.Embed(description=f'{member} 已被封禁，原因:{reason}',
+                                           colour=discord.Color.from_rgb(130, 156, 242)))
 
     # unban member by command,example: ?unban @user
     @commands.command(name='unban', help='ban member from guild')
@@ -49,7 +53,8 @@ class Member(InitCog):
         user = discord.Object(id=userId)
         await ctx.guild.unban(user)
         await ctx.channel.purge(limit=1)
-        await ctx.send(f"Unbanned {userId}")
+        await ctx.send(embed=discord.Embed(description=f'已解除 {userId} 的封禁',
+                                           colour=discord.Color.from_rgb(130, 156, 242)))
 
 
 async def setup(client):

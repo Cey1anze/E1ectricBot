@@ -14,7 +14,8 @@ class Message(InitCog):
     @commands.is_owner()
     async def clean(self, ctx, num: int):
         await ctx.channel.purge(limit=num + 1)
-        await ctx.send(f'{num} 条消息已被删除')
+        await ctx.send(embed=discord.Embed(description=f'已删除 {num} 条消息',
+                                           colour=discord.Color.from_rgb(130, 156, 242)))
 
     # Turn the message sent from bot
     @commands.command(name='resay', help='Sending messages as robots')
@@ -26,10 +27,13 @@ class Message(InitCog):
     # Monitor user messages and respond
     @commands.Cog.listener()
     async def on_message(self, msg):
+
         # Delete messages with keyword in blockwords(trash words or whatever u want)
+        # Lightweight version of Automod, If this function is not required, annotated lines 32-35
         if any(word in msg.content for word in keyword) and msg.author != self.client.user:
             await msg.channel.purge(limit=1)
-            await msg.channel.send(f'不要说脏话')
+            await msg.channel.send(embed=discord.Embed(description=f'不要说脏话',
+                                                       colour=discord.Color.from_rgb(130, 156, 242)))
 
         # bot responds after entering specific content
         reply1 = reply[msg.content]
