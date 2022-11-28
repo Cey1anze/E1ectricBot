@@ -22,11 +22,11 @@
 
 - [x] 9.auto reply by specific content
 
+- [x] 10.24/7 online
+
 ## What's next?
 
-- [ ] 1.response by embed-type 
-
-- [ ] 2.load plugins 
+- [x] 1.response by embed-type
 
 - [ ] 3.background tasks 
 
