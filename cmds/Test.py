@@ -6,7 +6,7 @@ from Basic_bot.Core.init_cog import InitCog
 
 class Test(InitCog):
 
-    @commands.command(name='ping', help='Test bot delay')
+    @commands.command(name='ping', help='测试机器人延迟')
     async def ping(self, ctx):
         await ctx.channel.purge(limit=1)
         await ctx.send(embed=discord.Embed(description=f'🕒延迟：{round(self.client.latency * 1000)} ms',
