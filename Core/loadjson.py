@@ -17,3 +17,15 @@ def load_replyconfig():
     with open('./configs/replyDict.json', 'r', encoding='UTF-8') as jf:
         replydata = json.load(jf)
         return replydata
+
+
+def load_channelconfig():
+    with open('./configs/channel.json', 'r', encoding='UTF-8') as jf:
+        channeldata = json.load(jf)
+        return channeldata
+
+
+def load_roleconfig():
+    with open('./configs/roles.json', 'r', encoding='UTF-8') as jf:
+        roledata = json.load(jf)
+        return roledata
