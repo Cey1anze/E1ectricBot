@@ -29,3 +29,15 @@ def load_roleconfig():
     with open('./configs/roles.json', 'r', encoding='UTF-8') as jf:
         roledata = json.load(jf)
         return roledata
+
+
+def load_helpconfig():
+    with open('./configs/help.json', 'r', encoding='UTF-8') as jf:
+        helpembed = json.load(jf)
+        return helpembed
+
+
+def load_chatconfig():
+    with open('./configs/chatGPT.json', 'r', encoding='UTF-8') as jf:
+        chatbot = json.load(jf)
+        return chatbot
