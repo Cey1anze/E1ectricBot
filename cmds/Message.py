@@ -1,5 +1,7 @@
+import asyncio
 import discord
 import json
+from discord import app_commands
 from discord.ext import commands
 from Basic_bot.Core.init_cog import InitCog
 from Basic_bot.Core.loadjson import load_replyconfig, load_blockwordconfig
@@ -8,19 +10,17 @@ from Basic_bot.Core.loadjson import load_replyconfig, load_blockwordconfig
 class Message(InitCog):
 
     # clean messages
-    @commands.command(name='clean', help='删除若干条消息')
-    @commands.is_owner()
-    async def clean(self, ctx, num: int):
-        await ctx.channel.purge(limit=num + 1)
-        await ctx.send(embed=discord.Embed(description=f'已删除 {num} 条消息',
-                                           colour=discord.Color.from_rgb(130, 156, 242)))
-
-    # Turn the message sent from bot
-    @commands.command(name='resay', help='以机器人方式发送消息')
-    @commands.is_owner()
-    async def resay(self, ctx, *, msg):
-        await ctx.message.delete()
-        await ctx.send(msg)
+    @app_commands.command(name='clean', description='清除消息')
+    @app_commands.describe(num='要清理多少条消息')
+    @commands.has_permissions(manage_channels=True)
+    async def clean(self, interaction: discord.Interaction, num: int):
+        try:
+            await interaction.channel.purge(limit=num)
+            await interaction.response.defer()
+            await interaction.followup.send(embed=discord.Embed(description=f'已删除 **{num}** 条消息',
+                                                                colour=discord.Color.from_rgb(130, 156, 242)))
+        except Exception as e:
+            print(e)
 
     # Monitor user messages and respond
     @commands.Cog.listener()
