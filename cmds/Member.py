@@ -29,7 +29,7 @@ class Member(InitCog):
 
     # kick member by command,example: ?kick @user
     @commands.command(name='kick', help='踢除用户')
-    @commands.is_owner()
+    @commands.has_permissions(kick_members=True)
     async def kickmember(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         await ctx.channel.purge(limit=1)
@@ -38,7 +38,7 @@ class Member(InitCog):
 
     # ban member by command,example: ?ban @user
     @commands.command(name='ban', help='封禁用户')
-    @commands.is_owner()
+    @commands.has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
         await ctx.channel.purge(limit=1)
@@ -47,8 +47,8 @@ class Member(InitCog):
 
     # unban member by command,example: ?unban @user
     @commands.command(name='unban', help='解封用户')
+    @commands.has_permissions(ban_members=True)
     @commands.guild_only()
-    @commands.is_owner()
     async def unban(self, ctx, userId):
         user = discord.Object(id=userId)
         await ctx.guild.unban(user)
