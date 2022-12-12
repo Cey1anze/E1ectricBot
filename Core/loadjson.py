@@ -7,18 +7,6 @@ def load_mainconfig():
         return jdata
 
 
-def load_blockwordconfig():
-    with open('./configs/blockwords.json', 'r', encoding='UTF-8') as jf:
-        keydata = json.load(jf)
-        return keydata
-
-
-def load_replyconfig():
-    with open('./configs/replyDict.json', 'r', encoding='UTF-8') as jf:
-        replydata = json.load(jf)
-        return replydata
-
-
 def load_channelconfig():
     with open('./configs/channel.json', 'r', encoding='UTF-8') as jf:
         channeldata = json.load(jf)
@@ -37,7 +25,7 @@ def load_helpconfig():
         return helpembed
 
 
-def load_chatconfig():
-    with open('./configs/chatGPT.json', 'r', encoding='UTF-8') as jf:
-        chatbot = json.load(jf)
-        return chatbot
+def load_musicconfig():
+    with open('./configs/music.json', 'r', encoding='UTF-8') as jf:
+        music = json.load(jf)
+        return music
