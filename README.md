@@ -14,20 +14,14 @@
 
 - [x] 5.ban/unban member 
 
-- [x] 6.clean message 
+- [x] 6.clean message
 
-- [x] 7.resay message by bots 
+- [x] 7.Auto reply by specific content
 
-- [x] 8.block foul language 
+- [x] 8.Weather Search
 
-- [x] 9.auto reply by specific content
-
-- [x] 10.24/7 online
+- [x] 9.music bot
 
 ## What's next?
 
-- [x] 1.response by embed-type
-
-- [ ] 3.background tasks 
-
-- [ ] 4.music bot
+- [ ] 1.I don't know what to code. Just code whatever I think.
