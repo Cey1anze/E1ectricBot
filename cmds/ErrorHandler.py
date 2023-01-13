@@ -10,7 +10,7 @@ from Basic_bot.cmds.Member import Member
 class Global_ErrorHandler(InitCog):
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx, *, error):
+    async def on_command_error(self, ctx, error):
         error_command = '{0}_error'.format(ctx.command)
         if hasattr(Custom_Handler, error_command):  # 檢查是否有 Custom Error Handler
             error_cmd = getattr(Custom_Handler, error_command)
@@ -23,6 +23,10 @@ class Global_ErrorHandler(InitCog):
             await ctx.send('指令不存在')
         elif isinstance(error, commands.errors.UserInputError):
             await ctx.send('参数输入有误')
+        elif isinstance(error,commands.errors.MissingPermissions):
+            await ctx.send("**你无权做此操作！！！**")
+        elif isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(f'在{round(error.retry_after)} 秒后重试', delete_after=10)
         else:
             try:
                 pass

@@ -46,7 +46,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When /join is used but member is not in a voice channel.
         """
         embed = self.discord.Embed(
-            title="**You are not in a voice channel.**", color=self.err_color
+            title="**你没有在语音频道中**", color=self.err_color
         )
         return embed
 
@@ -55,7 +55,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When /join is used and member is in a voice channel.
         """
         embed = self.discord.Embed(
-            title="**Joined voice channel.**", color=self.sucess_color
+            title="**已加入语音频道**", color=self.sucess_color
         )
         return embed
 
@@ -64,7 +64,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         when /join is used while the Client is in a VoiceChannel
         """
         embed = self.discord.Embed(
-            title="**I am already in a voice channel.**", color=self.err_color
+            title="**已在语音频道中**", color=self.err_color
         )
         return embed
 
@@ -73,7 +73,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the Client leaves a channel
         """
         embed = self.discord.Embed(
-            title="**Left voice channel.**", color=self.sucess_color
+            title="**离开了语音频道**", color=self.sucess_color
         )
         return embed
 
@@ -82,7 +82,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         when /leave is triggered and the client is not connected
         """
         embed = self.discord.Embed(
-            title="**I am not in a voice channel.**", color=self.err_color
+            title="**不在语音频道中**", color=self.err_color
         )
         return embed
 
@@ -91,7 +91,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When nothing is playing
         """
         embed = self.discord.Embed(
-            title="**Nothing is playing at the moment**.", color=self.err_color
+            title="**现在没有播放的内容**.", color=self.err_color
         )
         return embed
 
@@ -100,7 +100,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When no tracks were found
         """
         embed = self.discord.Embed(
-            title="**Unable to find any results!**", color=self.err_color
+            title="**没有找到任何结果**", color=self.err_color
         )
         return embed
 
@@ -116,14 +116,14 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             not is_queued and player.loop
         ):  ## If the track is not queued and the loop is enabled.
             embed = self.discord.Embed(
-                title="**Now Playing (Track Loop Enabled)**", color=self.sucess_color
+                title="**正在播放 (歌曲循环已启用)**", color=self.sucess_color
             )
 
         elif (
             not is_queued and player.queue_loop
         ):  ## If the track is not queued and the queue loop is enabled.
             embed = self.discord.Embed(
-                title="**Now Playing (Queue Loop Enabled)**", color=self.sucess_color
+                title="**正在播放 (队列循环已启用)**", color=self.sucess_color
             )
 
         elif (
@@ -149,7 +149,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             )
 
         else:  ## If the track is not queued and the loop is not enabled.
-            embed = self.discord.Embed(title="**Now Playing**", color=self.sucess_color)
+            embed = self.discord.Embed(title="**正在播放**", color=self.sucess_color)
 
         try:  ## If the track_info already contains spotify info, don't make another request.
             title = track_info.title_url
@@ -160,37 +160,37 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             )  ## Modify track info using spotify.
 
         embed.add_field(
-            name="Name",
+            name="名称",
             value=f"[{track_metadata.title}]({track_metadata.title_url})",
             inline=False,
         )
         embed.add_field(
-            name="Artist",
+            name="作者",
             value=f"[{track_metadata.author}]({track_metadata.author_url})",
             inline=False,
         )
         embed.add_field(
-            name="Album",
+            name="专辑",
             value=f"[{track_metadata.album}]({track_metadata.album_url})",
             inline=False,
         )
 
         if is_playing:  ## If /nowplaying is called, show the duration played.
             embed.add_field(
-                name="Duration Played",
+                name="进度条",
                 value=f"{await self.format_duration(player.position)}/{await self.format_duration(track_metadata.duration)}",
                 inline=False,
             )  ## Format the duration's into MM:SS
 
         else:  ## Otherwise, just show the track's duration.
             embed.add_field(
-                name="Duration",
+                name="时长",
                 value=await self.format_duration(track_metadata.duration),
                 inline=False,
             )
 
         embed.add_field(
-            name="Release Date", value=track_metadata.release_date, inline=False
+            name="发布日期", value=track_metadata.release_date, inline=False
         )
         embed.set_thumbnail(url=track_metadata.cover_url)
         return embed
@@ -232,7 +232,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             color=self.sucess_color,
         )
 
-        embed.set_footer(text="Note: A max of 20 tracks are displayed in the queue.")
+        embed.set_footer(text="Note: 最多显示20条歌曲")
         embed.set_thumbnail(url=queue_info[0].cover_url)
         return embed
 
@@ -241,7 +241,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         Empties the queue
         """
         embed = self.discord.Embed(
-            title="**The queue is currently empty.**", color=self.err_color
+            title="**播放队列为空**", color=self.err_color
         )
         return embed
 
@@ -250,7 +250,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the queue has been shuffled
         """
         embed = self.discord.Embed(
-            title="**Shuffled the queue**.", color=self.sucess_color
+            title="**已随机打乱播放队列**.", color=self.sucess_color
         )
         return embed
 
@@ -259,7 +259,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When volume has reached 100% and Member tried to increase it.
         """
         embed = self.discord.Embed(
-            title="**Volume cannot be greater than 100%.**", color=self.err_color
+            title="**音量不能超过100%**", color=self.err_color
         )
         return embed
 
@@ -268,7 +268,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         Set the volume
         """
         embed = self.discord.Embed(
-            title=f"**Volume has been set to {percentage}%.**", color=self.sucess_color
+            title=f"**音量已被设置到 {percentage}%.**", color=self.sucess_color
         )
         return embed
 
@@ -321,7 +321,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         No tracks in the queue.
         """
         embed = self.discord.Embed(
-            title="**There are no more tracks in the queue.**",
+            title="**播放队列中已没有歌曲**",
             color=self.discord.Colour.dark_purple(),
         )
         return embed
@@ -341,7 +341,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When there is less than 1 track in queue.
         """
         embed = self.discord.Embed(
-            title="**There needs to be 1 or more tracks in the queue!**",
+            title="**播放队列中至少需要1首歌曲**",
             color=self.err_color,
         )
         return embed
@@ -351,7 +351,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When a playlist is added to the queue.
         """
         embed = self.discord.Embed(
-            title="**Added Spotify playlist to the queue.**", color=self.sucess_color
+            title="**已添加Spotify歌单到播放队列**", color=self.sucess_color
         )
         return embed
 
@@ -360,7 +360,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the queue has been cleared.
         """
         embed = self.discord.Embed(
-            title="**Emptied the queue.**", color=self.sucess_color
+            title="**已清空播放队列**", color=self.sucess_color
         )
         return embed
 
@@ -369,7 +369,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the spotify url is invalid.
         """
         embed = self.discord.Embed(
-            title="**Invalid Spotify URL entered.**", color=self.err_color
+            title="**不可用的Spotify URL**", color=self.err_color
         )
         return embed
 
@@ -388,7 +388,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When a track is added to the queue
         """
         embed = self.discord.Embed(
-            title=f"**Added {track_info.title} - {track_info.author} to the queue.**",
+            title=f"**已添加 {track_info.title} - {track_info.author} 至播放队列**",
             color=self.sucess_color,
         )
         return embed
@@ -398,7 +398,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When someone does not put a valid url
         """
         embed = self.discord.Embed(
-            title="**Only Spotify URLS are supported!**", color=self.err_color
+            title="**只支持Spotify URL**", color=self.err_color
         )
         return embed
 
@@ -575,7 +575,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         >> A track has been added.
         """
         embed = self.discord.Embed(
-            title=f"**{track.title} - {track.author} started on Guild: {guild_id}.**",
+            title=f"**{track.title} - {track.author} 已在: {guild_id} 上开始播放**",
             color=self.sucess_color,
         )
         return embed
@@ -586,7 +586,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         >> A track has finished.
         """
         embed = self.discord.Embed(
-            title=f"**{track.title} - {track.author} finished on Guild: {guild_id}.**",
+            title=f"**{track.title} - {track.author} 已在: {guild_id} 上完成播放**",
             color=self.err_color,
         )
         return embed
@@ -621,7 +621,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the wavelink player is already paused.
         """
         embed = self.discord.Embed(
-            title=f"**{track_info.title} - {track_info.author} is already paused!**",
+            title=f"**{track_info.title} - {track_info.author} 已经被暂停!**",
             color=self.err_color,
         )
         return embed
@@ -631,7 +631,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         When the wavelink player is already resumed.
         """
         embed = self.discord.Embed(
-            title=f"**{track_info.title} - {track_info.author} has already been resumed!**",
+            title=f"**{track_info.title} - {track_info.author} 已经被继续播放!**",
             color=self.err_color,
         )
         return embed

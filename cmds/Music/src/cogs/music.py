@@ -25,7 +25,7 @@ class Music(commands.Cog):
         self.bot = bot
         self.music = MusicHelper()
 
-    @app_commands.command(name="join", description="Braum joins your voice channel.")
+    @app_commands.command(name="music-join", description="让机器人进入语音频道")
     @in_same_channel()
     @member_in_voicechannel()
     async def join(self, interaction: discord.Interaction):
@@ -42,7 +42,7 @@ class Music(commands.Cog):
             )
             return await interaction.followup.send(embed=await self.music.in_vc())
 
-    @app_commands.command(name="leave", description="Braum leaves your voice channel.")
+    @app_commands.command(name="music-leave", description="让机器人离开语音频道")
     @in_same_channel()
     @member_in_voicechannel()
     async def leave(self, interaction: discord.Interaction):
@@ -55,7 +55,7 @@ class Music(commands.Cog):
         return await interaction.followup.send(embed=await self.music.left_vc())
 
     @app_commands.command(
-        name="pause", description="Braum pauses the currently playing track."
+        name="music-pause", description="暂停当前播放的歌曲"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -86,11 +86,11 @@ class Music(commands.Cog):
         ## If the current track is not paused, pause it.
         await interaction.guild.voice_client.pause()
         return await interaction.followup.send(
-            embed=await self.music.common_track_actions(track, "Paused")
+            embed=await self.music.common_track_actions(track, "已暂停")
         )
 
     @app_commands.command(
-        name="resume", description="Braum resumes the currently playing track."
+        name="music-resume", description="继续当前的歌曲"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -116,7 +116,7 @@ class Music(commands.Cog):
         if player.is_paused():
             await interaction.guild.voice_client.resume()
             return await interaction.followup.send(
-                embed=await self.music.common_track_actions(track, "Resumed")
+                embed=await self.music.common_track_actions(track, "已继续")
             )
 
         ## Otherwise, respond.
@@ -125,7 +125,7 @@ class Music(commands.Cog):
         )
 
     @app_commands.command(
-        name="stop", description="Braum stops the currently playing track."
+        name="music-stop", description="停止当前播放的歌曲"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -149,14 +149,14 @@ class Music(commands.Cog):
         ## Retrieve the current player.
         player = await self.music.get_player(interaction.guild)
         await interaction.followup.send(
-            embed=await self.music.common_track_actions(track, "Stopped")
+            embed=await self.music.common_track_actions(track, "已停止")
         )
 
         ## Stop the track after sending the embed.
         return await player.stop()
 
     @app_commands.command(
-        name="skip", description="Braum skips the currently playing track."
+        name="music-skip", description="跳过当前播放的歌曲"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -178,13 +178,13 @@ class Music(commands.Cog):
         ## Retrieve currently playing track's info.
         track = await self.music.get_track(interaction.guild)
         await interaction.followup.send(
-            embed=await self.music.common_track_actions(track, "Skipped")
+            embed=await self.music.common_track_actions(track, "已跳过")
         )
 
         ## Skip the track after sending the embed.
         return await player.stop()
 
-    @app_commands.command(name="queue", description="Braum shows you the queue.")
+    @app_commands.command(name="music-queue", description="展示播放队列")
     async def queue(self, interaction: discord.Interaction):
         """
         /queue command
@@ -206,7 +206,7 @@ class Music(commands.Cog):
             )
         )
 
-    @app_commands.command(name="shuffle", description="Braum shuffles the queue.")
+    @app_commands.command(name="music-shuffle", description="随机打乱播放列表")
     @in_same_channel()
     @member_in_voicechannel()
     async def shuffle(self, interaction: discord.Interaction):
@@ -247,7 +247,7 @@ class Music(commands.Cog):
             )
 
     @app_commands.command(
-        name="nowplaying", description="Braum shows you the currently playing song."
+        name="music-nowplaying", description="展示现在正在播放的歌曲"
     )
     async def nowplaying(self, interaction: discord.Interaction):
         """
@@ -268,9 +268,9 @@ class Music(commands.Cog):
             embed=await self.music.display_track(track, interaction.guild, False, True)
         )
 
-    @app_commands.command(name="volume", description="Braum adjusts the volume.")
+    @app_commands.command(name="music-volume", description="调整播放音量")
     @app_commands.describe(
-        volume_percentage="The percentage to set the volume to. Accepted range: 0 to 100."
+        volume_percentage="音量数值，范围：0 - 100"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -299,10 +299,10 @@ class Music(commands.Cog):
         )
 
     @app_commands.command(
-        name="remove", description="Braum removes a track from the queue."
+        name="music-remove", description="从播放队列移除歌曲"
     )
     @app_commands.describe(
-        track_index="The number of track to remove. Find out the track number using /queue."
+        track_index="移除歌曲的数量"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -320,7 +320,7 @@ class Music(commands.Cog):
 
         ## Store the info beforehand as the track will be removed.
         remove_msg = await self.music.queue_track_actions(
-            await self.music.get_queue(interaction.guild), track_index, "Removed"
+            await self.music.get_queue(interaction.guild), track_index, "已移除"
         )
 
         ## If the track exists in the queue, respond.
@@ -337,10 +337,10 @@ class Music(commands.Cog):
         )
 
     @app_commands.command(
-        name="skipto", description="Braum skips to a specific track in the queue."
+        name="music-skipto", description="跳过指定数量的歌曲(包含当前播放的歌曲)"
     )
     @app_commands.describe(
-        track_index="The number of track to skip to. Find out the track number using /queue."
+        track_index="跳过歌曲的数量"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -358,7 +358,7 @@ class Music(commands.Cog):
 
         ## Store the info beforehand as the track will be removed.
         skipped_msg = await self.music.queue_track_actions(
-            await self.music.get_queue(interaction.guild), track_index, "Skipped to"
+            await self.music.get_queue(interaction.guild), track_index, "已跳过"
         )
 
         ## If the track exists in the queue, respond.
@@ -374,7 +374,7 @@ class Music(commands.Cog):
             embed=await self.music.track_not_in_queue()
         )
 
-    @app_commands.command(name="empty", description="Braum empties the queue.")
+    @app_commands.command(name="music-empty", description="清空播放队列")
     @in_same_channel()
     @member_in_voicechannel()
     async def empty(self, interaction: discord.Interaction):
@@ -411,7 +411,7 @@ class Music(commands.Cog):
             )
 
     @app_commands.command(
-        name="loop", description="Braum loops the currently playing track."
+        name="music-loop", description="循环播放当前歌曲(开关)"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -437,7 +437,7 @@ class Music(commands.Cog):
         if not player.loop:
             ## Send the msg before enabling the loop to avoid confusing embed titles.
             await interaction.followup.send(
-                embed=await self.music.common_track_actions(track, "Looping")
+                embed=await self.music.common_track_actions(track, "正在循环")
             )
             player.loop = True
 
@@ -447,11 +447,11 @@ class Music(commands.Cog):
 
         player.loop = False
         return await interaction.followup.send(
-            embed=await self.music.common_track_actions(track, "Stopped looping")
+            embed=await self.music.common_track_actions(track, "停止循环")
         )
 
     @app_commands.command(
-        name="queueloop", description="Braum loops the current queue."
+        name="music-queueloop", description="循环整个播放队列(开关)"
     )
     @in_same_channel()
     @member_in_voicechannel()
@@ -485,7 +485,7 @@ class Music(commands.Cog):
         if not player.queue_loop:
             ## Send the msg before enabling the queue loop to avoid confusing embed titles.
             await interaction.followup.send(
-                embed=await self.music.common_track_actions(None, "Looping the queue")
+                embed=await self.music.common_track_actions(None, "正在循环队列")
             )
             player.queue_loop = True
 
@@ -501,14 +501,14 @@ class Music(commands.Cog):
 
         return await interaction.followup.send(
             embed=await self.music.common_track_actions(
-                None, "Stopped looping the queue"
+                None, "停止循环队列"
             )
         )
 
-    @app_commands.command(name="play", description="Braum plays your desired song.")
+    @app_commands.command(name="music-play", description="播放歌曲")
     @app_commands.describe(
         # category="Select a category for your search! | Track, Album, Spotify_Link",
-        search="Enter your spotify search here! / You can also enter a Spotify URL here",
+        search="输入关键字，也可以直接输入Spotify的URL",
     )
     # @app_commands.choices(
     #     category=[

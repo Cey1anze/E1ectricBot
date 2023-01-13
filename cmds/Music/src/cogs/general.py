@@ -22,7 +22,7 @@ class General(commands.Cog):
         self.music = MusicHelper()
 
     @app_commands.command(
-        name="newreleases",
+        name="music-newreleases",
         description="展示最新发布的歌曲",
     )
     async def newreleases(self, interaction: discord.Interaction):
@@ -38,7 +38,7 @@ class General(commands.Cog):
         )  ## Display the trending embed.
 
     @app_commands.command(
-        name="trending", description="展示当天的流行趋势"
+        name="music-trending", description="展示当天的流行趋势"
     )
     async def trending(self, interaction: discord.Interaction):
         """
@@ -51,7 +51,7 @@ class General(commands.Cog):
         )  ## Display the new releases embed.
 
     @app_commands.command(
-        name="search", description="搜索Spotify的曲目"
+        name="music-search", description="搜索Spotify的曲目"
     )
     @app_commands.describe(search_query="要搜索的歌曲名称")
     async def search(self, interaction: discord.Interaction, *, search_query: str):
@@ -65,7 +65,7 @@ class General(commands.Cog):
         )  ## Display the invite embed.
 
     @app_commands.command(
-        name="lyrics", description="找到 (几乎) 任何歌曲的歌词"
+        name="music-lyrics", description="找到 (几乎) 任何歌曲的歌词"
     )
     @app_commands.describe(song_name="检索歌词的歌曲名称")
     async def lyrics(self, interaction: discord.Interaction, *, song_name: str):

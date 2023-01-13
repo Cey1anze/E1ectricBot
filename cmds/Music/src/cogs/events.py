@@ -73,9 +73,9 @@ class MusicEvents(commands.Cog):
             )  ## Let the user know that there are no more tracks in the queue.
 
         logging_channel = self.bot.get_channel(
-            int(1044899356513402910)
+            int(1062602714166595584)
         )  ## Retrieve the logging channel.
-        logger.info("Song ended because of reason: %s", reason)
+        logger.info("歌曲因 %s 而结束", reason)
         await logging_channel.send(
             embed=await self.music.log_track_finished(track, player.guild)
         )  ## Send the log embed.
@@ -100,7 +100,7 @@ class MusicEvents(commands.Cog):
         )  ## Send the embed when a track starts and delete it after 60 seconds.
 
         logging_channel = self.bot.get_channel(
-            int(1044899356513402910)
+            int(1062602714166595584)
         )  ## Retrieve the logging channel.
         await logging_channel.send(
             embed=await self.music.log_track_started(track, player.guild)
