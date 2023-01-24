@@ -29,3 +29,15 @@ def load_musicconfig():
     with open('./configs/music.json', 'r', encoding='UTF-8') as jf:
         music = json.load(jf)
         return music
+
+
+def load_chatconfig():
+    with open('./configs/chatGPTconfig.json', 'r', encoding='UTF-8') as jf:
+        chat = json.load(jf)
+        return chat
+
+
+def load_transconfig():
+    with open('./configs/translate.json', 'r', encoding='UTF-8') as jf:
+        trans = json.load(jf)
+        return trans
