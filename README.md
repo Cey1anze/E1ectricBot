@@ -25,6 +25,8 @@
 - [x] 10.Battlefield V status search
 
 - [x] 11.steam discount check
+
+- [x] 12.text translate
 ## What's next?
 
 - [ ] 1.I don't know what to code. Just code whatever I think.
