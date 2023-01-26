@@ -1,14 +1,12 @@
 import asyncio
-import discord
 import os
 
-import typing
+import discord
 import wavelink
 from discord.ext import commands
+
 from Basic_bot.Core import loadjson
 from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.utils.cogs_loader import cog_loader, cog_reloader
-from Basic_bot.cmds.Music.src.utils.music_helper import MusicHelper
 
 jdata = loadjson.load_mainconfig()
 helpguide = loadjson.load_helpconfig()
@@ -19,12 +17,24 @@ logger = settings.logging.getLogger("bot")
 
 # read cogs from cmds and load them
 async def setup_hook():
-    for Filename in os.listdir('./cmds'):
+    for Filename in os.listdir('./cmds/essentials'):
         if Filename.endswith('.py'):
-            await client.load_extension(f'cmds.{Filename[:-3]}')
+            await client.load_extension(f'cmds.essentials.{Filename[:-3]}')
     for Filename in os.listdir('./cmds/Music/src/cogs'):
         if Filename.endswith('.py'):
             await client.load_extension(f'cmds.Music.src.cogs.{Filename[:-3]}')
+    for Filename in os.listdir('./cmds/BFV'):
+        if Filename.endswith('.py'):
+            await client.load_extension(f'cmds.BFV.{Filename[:-3]}')
+    for Filename in os.listdir('./cmds/chatGPT/src'):
+        if Filename.endswith('.py'):
+            await client.load_extension(f'cmds.chatGPT.src.{Filename[:-3]}')
+    for Filename in os.listdir('./cmds/OtherApicmds'):
+        if Filename.endswith('.py'):
+            await client.load_extension(f'cmds.OtherApicmds.{Filename[:-3]}')
+    for Filename in os.listdir('./cmds/GuildManager'):
+        if Filename.endswith('.py'):
+            await client.load_extension(f'cmds.GuildManager.{Filename[:-3]}')
 
 
 @client.command(name='load', help='加载模组')
