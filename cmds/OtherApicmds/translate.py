@@ -36,20 +36,24 @@ def get_translate(text: str):
         request.set_method("POST")
         # 发起API请求并显示返回值
         response = client.do_action_with_exception(request)
-
+        return json.loads(response)['Data']['Translated']
     except Exception as e:
         return e
-
-    return json.loads(response)['Data']['Translated']
 
 
 # 创建嵌入式消息
 def create_embed(text):
-    embed = discord.Embed(title="翻译结果", color=0x00ff00)
-    embed.add_field(name="原文", value=text, inline=False)
-    embed.add_field(name='译文', value=f'{get_translate(text)}', inline=False)
-    embed.set_footer(text=f'已切换显示模式为：{isPrivate}，如需切换显示模式，请点击下方按钮')
-    return embed
+    judge = get_translate(text)
+    line = '-' * 12
+    if not isinstance(judge, Exception):
+        embed = discord.Embed(title="翻译结果", description=f'已切换显示模式为 : {isPrivate} ,如需切换显示模式，请点击下方按钮', color=0x00ff00)
+        embed.add_field(name=f'{line}原文{line}', value=text, inline=False)
+        embed.add_field(name=f'{line}译文{line}', value=f'{get_translate(text)}', inline=False)
+        embed.set_footer(text='Translate engine powered by Aliyun')
+        return embed
+    else:
+        embed = discord.Embed(title="请求失败", description=f'{Exception}', color=0xDC143C)
+        return embed
 
 
 class Buttons(discord.ui.View):
@@ -59,7 +63,7 @@ class Buttons(discord.ui.View):
         self.private = discord.ui.Button(label="仅自己", style=discord.ButtonStyle.red)
         self.pubilc = discord.ui.Button(label="公开", style=discord.ButtonStyle.green)
         self.dm = discord.ui.Button(label="私信", style=discord.ButtonStyle.green)
-        # self.add_item(self.copy)
+        # self.add_item(self.copy)  如果你的机器人在本地运行，那么你可以取消注释，会恢复复制译文的按钮，用来复制译文到系统剪切板
         self.add_item(self.pubilc)
         self.add_item(self.private)
         self.add_item(self.dm)
@@ -150,7 +154,6 @@ class Translate(InitCog):
         pc.copy(result)
         await interaction.response.send_message("已复制译文到剪切板", ephemeral=True)
         '''
-        # 如果你的机器人在本地运行，那么你可以使用下面的方法，利用pyperclip模块来复制译文到系统剪切板
 
 
 async def setup(client):
