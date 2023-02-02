@@ -1,9 +1,11 @@
-import asyncio
 import discord
-import json
 from discord import app_commands
 from discord.ext import commands
-from Basic_bot.Core.init_cog import InitCog
+
+from Core.init_cog import InitCog
+from Core import logger, loadjson
+
+logs = loadjson.load_logconfig()
 
 
 class Message(InitCog):
@@ -20,6 +22,12 @@ class Message(InitCog):
                                                                 colour=discord.Color.from_rgb(130, 156, 242)))
         except Exception as e:
             print(e)
+
+    @commands.Cog.listener()
+    async def on_message_delete(self, message):
+        logger.logwrite(f'{message.author} 在 {message.channel} 删除了一条消息: {message.content}')
+        await logger.dclogwrite(channel=self.client.get_channel(logs['logger_channel']),
+                                msg=f'{message.author} 在 {message.channel} 删除了一条消息: {message.content}')
 
 
 async def setup(client):

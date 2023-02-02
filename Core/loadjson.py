@@ -19,12 +19,6 @@ def load_roleconfig():
         return roledata
 
 
-def load_helpconfig():
-    with open('./configs/help.json', 'r', encoding='UTF-8') as jf:
-        helpembed = json.load(jf)
-        return helpembed
-
-
 def load_musicconfig():
     with open('./configs/music.json', 'r', encoding='UTF-8') as jf:
         music = json.load(jf)
@@ -41,3 +35,9 @@ def load_transconfig():
     with open('./configs/translate.json', 'r', encoding='UTF-8') as jf:
         trans = json.load(jf)
         return trans
+
+
+def load_logconfig():
+    with open('./configs/logger.json', 'r', encoding='UTF-8') as jf:
+        log = json.load(jf)
+        return log
