@@ -4,7 +4,7 @@ import json
 from discord.app_commands import Choice
 from discord.ext import commands
 from discord import app_commands
-from Basic_bot.Core.init_cog import InitCog
+from Core.init_cog import InitCog
 from discord.utils import get
 
 
@@ -81,51 +81,28 @@ class Member(InitCog):
         Choice(name='1天', value=4),
         Choice(name='1周', value=5)
     ])
-    async def timeout(self, interaction: discord.Interaction, member: discord.Member, option: int, *, reason: str = None):
-        if interaction.user.guild_permissions.moderate_members:
-            try:
-                if option == 0:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(minutes=1.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **1 分钟**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-                elif option == 1:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(minutes=5.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **5 分钟**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-                elif option == 2:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(minutes=10.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **10 分钟**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-                elif option == 3:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(hours=1.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **1 小时**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-                elif option == 4:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(weeks=1.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **1 天**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-                elif option == 5:
-                    await interaction.response.defer()
-                    await member.timeout(datetime.timedelta(minutes=1.0), reason=reason)
-                    await interaction.followup.send(
-                        embed=discord.Embed(description=f'{member} 已被禁言 **1 周**, 原因 : {reason}',
-                                            colour=discord.Color.from_rgb(130, 156, 242)))
-            except Exception as e:
-                print(e)
-        else:
+    async def timeout(self, interaction: discord.Interaction, member: discord.Member, option: int, *,
+                      reason: str = None):
+        if not interaction.user.guild_permissions.moderate_members:
             await interaction.response.defer()
             await interaction.followup.send(embed=discord.Embed(description=f'{interaction.user.mention} 没有执行这项操作的权限',
                                                                 colour=discord.Color.from_rgb(130, 156, 242)))
+            return
+
+        duration_map = {
+            0: datetime.timedelta(minutes=1.0),
+            1: datetime.timedelta(minutes=5.0),
+            2: datetime.timedelta(minutes=10.0),
+            3: datetime.timedelta(hours=1.0),
+            4: datetime.timedelta(days=1.0),
+            5: datetime.timedelta(weeks=1.0),
+        }
+
+        duration = duration_map.get(option, datetime.timedelta(minutes=1.0))
+        await interaction.response.defer()
+        await member.timeout(duration, reason=reason)
+        await interaction.followup.send(embed=discord.Embed(description=f'{member} 已被禁言 **{duration}**, 原因 : {reason}',
+                                                            colour=discord.Color.from_rgb(130, 156, 242)))
 
     # unban member by command,example: ?unban @user
     @commands.command(name='unban', help='解封用户')

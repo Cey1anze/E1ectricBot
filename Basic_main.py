@@ -4,12 +4,10 @@ import os
 import discord
 import wavelink
 from discord.ext import commands
-
 from Basic_bot.Core import loadjson
-from Basic_bot.cmds.Music.logs import settings
+from logs import settings
 
 jdata = loadjson.load_mainconfig()
-helpguide = loadjson.load_helpconfig()
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
 logger = settings.logging.getLogger("bot")

@@ -12,9 +12,9 @@ import spotipy
 import wavelink
 from spotipy import Spotify, SpotifyClientCredentials, SpotifyException
 
-from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.utils.responses import Responses
-from Basic_bot.Core.loadjson import load_musicconfig
+from logs import settings
+from cmds.Music.src.utils.responses import Responses
+from Core.loadjson import load_musicconfig
 
 music = load_musicconfig()
 
@@ -45,7 +45,6 @@ class MusicHelper(Responses):  # pylint:disable=too-many-instance-attributes
     url_regex_https: Literal
 
     def __init__(self):
-
         self.discord = discord
         self.wavelink = wavelink
 

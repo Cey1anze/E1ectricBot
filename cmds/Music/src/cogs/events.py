@@ -2,10 +2,12 @@
 import wavelink
 from discord.ext import commands
 
-from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.utils.music_helper import MusicHelper
+from logs import settings
+from cmds.Music.src.utils.music_helper import MusicHelper
+from Core.loadjson import load_musicconfig
 
 logger = settings.logging.getLogger(__name__)
+channellog = load_musicconfig()
 
 
 class MusicEvents(commands.Cog):
@@ -29,7 +31,7 @@ class MusicEvents(commands.Cog):
 
     @commands.Cog.listener()
     async def on_wavelink_track_end(
-        self, player: wavelink.Player, track: wavelink.Track, reason
+            self, player: wavelink.Player, track: wavelink.Track, reason
     ):
         """
         Fires when a track ends.
@@ -47,18 +49,18 @@ class MusicEvents(commands.Cog):
         #     await ctx.send(embed=await self.music.left_due_to_inactivity())
 
         if (
-            not player.queue.is_empty and not player.loop and not player.queue_loop
+                not player.queue.is_empty and not player.loop and not player.queue_loop
         ):  ## If the queue is not empty and the loop is disabled, play the next track.
             next_track = await player.queue.get_wait()  ## Retrieve the queue.
             await player.play(next_track)
 
         elif (
-            player.loop
+                player.loop
         ):  ## If the loop is enabled, replay the track using the existing `looped_track` variable.
             await player.play(player.looped_track)
 
         elif (
-            player.queue_loop
+                player.queue_loop
         ):  ## If the queue loop is enabled, replay the track using the existing `looped_track` var.
             player.queue.put(
                 player.queue_looped_track
@@ -73,7 +75,7 @@ class MusicEvents(commands.Cog):
             )  ## Let the user know that there are no more tracks in the queue.
 
         logging_channel = self.bot.get_channel(
-            int(1062602714166595584)
+            channellog['logging_channelid']
         )  ## Retrieve the logging channel.
         logger.info("歌曲因 %s 而结束", reason)
         await logging_channel.send(
@@ -88,7 +90,7 @@ class MusicEvents(commands.Cog):
         ctx = player.reply  ## Retrieve the guild's channel id.
 
         if (
-            player.queue_loop
+                player.queue_loop
         ):  ## If the queue loop is enabled, assign queue_looped_track to the current track.
             player.queue_looped_track = track
 
@@ -100,7 +102,7 @@ class MusicEvents(commands.Cog):
         )  ## Send the embed when a track starts and delete it after 60 seconds.
 
         logging_channel = self.bot.get_channel(
-            int(1062602714166595584)
+            channellog['logging_channelid']
         )  ## Retrieve the logging channel.
         await logging_channel.send(
             embed=await self.music.log_track_started(track, player.guild)

@@ -14,8 +14,8 @@ import spotipy
 import wavelink as wl
 from spotipy import SpotifyException
 
-from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.utils.functions import Functions
+from logs import settings
+from cmds.Music.src.utils.functions import Functions
 
 logger = settings.logging.getLogger(__name__)
 
@@ -105,7 +105,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         return embed
 
     async def display_track(
-        self, track_info, guild_id, is_queued: bool, is_playing: bool
+            self, track_info, guild_id, is_queued: bool, is_playing: bool
     ):
         """
         Displays the current track.
@@ -113,21 +113,21 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         player = await self.get_player(guild_id)  ## Retrieve the player.
 
         if (
-            not is_queued and player.loop
+                not is_queued and player.loop
         ):  ## If the track is not queued and the loop is enabled.
             embed = self.discord.Embed(
                 title="**正在播放 (歌曲循环已启用)**", color=self.sucess_color
             )
 
         elif (
-            not is_queued and player.queue_loop
+                not is_queued and player.queue_loop
         ):  ## If the track is not queued and the queue loop is enabled.
             embed = self.discord.Embed(
                 title="**正在播放 (队列循环已启用)**", color=self.sucess_color
             )
 
         elif (
-            is_queued and player.loop
+                is_queued and player.loop
         ):  ## If both the track is queued and the loop is enabled.
             embed = self.discord.Embed(
                 title="**Queued Track (Another Track Is Looping)**",
@@ -135,14 +135,14 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             )
 
         elif (
-            is_queued and player.queue_loop
+                is_queued and player.queue_loop
         ):  ## If both the track is queued and the queue loop is enabled.
             embed = self.discord.Embed(
                 title="**Queued Track (Queue Loop Enabled)**", color=self.sucess_color
             )
 
         elif (
-            is_queued and not player.loop
+                is_queued and not player.loop
         ):  ## If the track is queued and the loop is not enabled.
             embed = self.discord.Embed(
                 title="**Queued Track**", color=self.sucess_color
@@ -216,7 +216,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
             return await self.empty_queue()
 
         for i, track in enumerate(
-            list(queue_info)[:20], start=1
+                list(queue_info)[:20], start=1
         ):  ## Loop through all items in the queue.
 
             queue_list.append(
@@ -279,7 +279,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         try:
 
             embed = self.discord.Embed(
-                title=f"**{embed_title} {queue[track_index - 1].title} - {queue[track_index -1].author}.**",
+                title=f"**{embed_title} {queue[track_index - 1].title} - {queue[track_index - 1].author}.**",
                 color=self.sucess_color,
             )  ## The track exists in the queue.
 
@@ -293,7 +293,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         Used for pause, resume, loop, queueloop.
         """
         if (
-            track_info is None
+                track_info is None
         ):  ## If no track info is passed, just display the embed's title. Used in the case of queueloop.
             embed = self.discord.Embed(
                 title=f"**{embed_title}.**", color=self.sucess_color
@@ -558,7 +558,7 @@ class Responses(Functions):  # pylint:disable=too-many-public-methods
         return embed
 
     async def lyrics_too_long(
-        self,
+            self,
     ):
         """
         When the lyrics are over 4096 characters long.

@@ -11,8 +11,8 @@ import spotipy
 import wavelink
 from spotipy import SpotifyException
 
-from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.utils.spotify_models import SpotifyTrack
+from logs import settings
+from cmds.Music.src.utils.spotify_models import SpotifyTrack
 
 logger = settings.logging.getLogger(__name__)
 
@@ -48,8 +48,8 @@ class Functions:  # pylint:disable=too-many-public-methods
         """Returns the queue."""
         return (
             self.wavelink.NodePool.get_node()  # pylint:disable=protected-access
-            .get_player(guild)
-            .queue._queue
+                .get_player(guild)
+                .queue._queue
         )
 
     async def shuffle(self, queue):
@@ -184,11 +184,11 @@ class Functions:  # pylint:disable=too-many-public-methods
                 return None
 
         for i, track in enumerate(
-            media_tracks["items"], start=0
+                media_tracks["items"], start=0
         ):  ## Loop through all tracks in the playlist/album.
 
             if i == 1 and not await self.get_track(
-                guild
+                    guild
             ):  ## If the first track has been added to queue and nothing else is currently playing.
                 next_track = await player.queue.get_wait()  ## Retrieve the queue.
                 await player.play(
@@ -230,7 +230,7 @@ class Functions:  # pylint:disable=too-many-public-methods
         queue = await self.get_queue(guild)  ## Retreieve the queue.
 
         if not hasattr(
-            player, "reply"
+                player, "reply"
         ):  ## Check whether or not the guild's player contains certain values.
             player.reply = channel_id  ## Define the same values as in the play command since the player attributes do not exist yet.
             player.loop = False
@@ -264,7 +264,7 @@ class Functions:  # pylint:disable=too-many-public-methods
         )  ## Modify the track info with existing spotify info before adding to the queue.
 
         if await self.get_track(
-            guild
+                guild
         ):  ## If something is currently playing, add the track to the queue.
             await player.queue.put_wait(final_track)  ## Add the track to the queue.
             return final_track  ## Return the track info required for the added to queue embed.
@@ -287,7 +287,7 @@ class Functions:  # pylint:disable=too-many-public-methods
             return "No lyrics found!"
 
     async def search_songs(
-        self, search_query: str, category: str = "track", limit: int = 10
+            self, search_query: str, category: str = "track", limit: int = 10
     ):
         """
         Returns 10 results from spotify.
@@ -313,9 +313,9 @@ class Functions:  # pylint:disable=too-many-public-methods
         return "\n".join(all_tracks)
 
     async def format_query_search_results_track(
-        self,
-        search_results: dict,
-        limit: int = 5,
+            self,
+            search_results: dict,
+            limit: int = 5,
     ) -> list[SpotifyTrack]:
         """
         Returns a list of Spotify Tracks
@@ -352,4 +352,4 @@ class Functions:  # pylint:disable=too-many-public-methods
         """Returns milliseconds in minutes and seconds"""
         _seconds = milliseconds // 1000
         minutes, seconds = divmod(_seconds, 60)
-        return f"{minutes}:{seconds if seconds >9 else f'0{seconds}'}"
+        return f"{minutes}:{seconds if seconds > 9 else f'0{seconds}'}"

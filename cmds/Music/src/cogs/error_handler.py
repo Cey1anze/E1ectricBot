@@ -3,9 +3,9 @@ import discord
 import wavelink
 from discord.ext import commands
 
-from Basic_bot.cmds.Music.logs import settings
-from Basic_bot.cmds.Music.src.essentials.errors import MustBeSameChannel, NotConnectedToVoice
-from Basic_bot.cmds.Music.src.utils.music_helper import MusicHelper
+from logs import settings
+from cmds.Music.src.essentials.errors import MustBeSameChannel, NotConnectedToVoice
+from cmds.Music.src.utils.music_helper import MusicHelper
 
 logger = settings.logging.getLogger(__name__)
 
@@ -21,9 +21,9 @@ class ErrorHandler(commands.Cog):
         bot.tree.on_error = self.on_app_command_error
 
     async def on_app_command_error(
-        self,
-        interaction: discord.Interaction,
-        error: discord.app_commands.AppCommandError,
+            self,
+            interaction: discord.Interaction,
+            error: discord.app_commands.AppCommandError,
     ):
         """Triggers when a error is raised."""
         await interaction.response.defer()

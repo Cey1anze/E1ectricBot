@@ -4,7 +4,7 @@ HOLDS CUSTOM SPOTIFY MODELS.
 
 from dataclasses import dataclass
 
-from Basic_bot.cmds.Music.logs import settings
+from logs import settings
 
 logger = settings.logging.getLogger(__name__)
 
@@ -49,7 +49,6 @@ class SpotifyTrack:
             )
             for track in search_result
         ]
-
 
 # NO LONGED USED.
 # @dataclass(frozen=True, repr=False, eq=False)

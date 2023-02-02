@@ -1,6 +1,6 @@
 from discord.app_commands import CheckFailure
 
-from Basic_bot.cmds.Music.logs import settings
+from logs import settings
 
 logger = settings.logging.getLogger(__name__)
 

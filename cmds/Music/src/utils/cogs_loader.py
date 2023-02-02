@@ -5,7 +5,7 @@ import os
 
 from discord.ext import commands
 
-from Basic_bot.cmds.Music.logs import settings
+from logs import settings
 
 logger = settings.logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ async def cog_loader(client: commands.Bot):
         if filename.endswith(".py") and not filename.startswith("_"):
             await client.load_extension(f"cmds.Music.src.cogs.{filename[:-3]}")
             logger.info(f"Loaded src.cogs.{filename[:-3]}")
+
 
 async def cog_reloader(client: commands.Bot):
     """reload all cogs."""

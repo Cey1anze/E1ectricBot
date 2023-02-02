@@ -9,7 +9,7 @@ import wavelink
 from discord import app_commands
 from discord.ext import commands
 
-from Basic_bot.cmds.Music.logs import settings
+from logs import settings
 
 from .errors import MustBeSameChannel, NotConnectedToVoice, PlayerNotConnected, MustBeInNsfwChannel
 

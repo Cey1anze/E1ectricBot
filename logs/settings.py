@@ -25,7 +25,7 @@ LOGGING_CONFIG = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "./cmds/Music/logs/infos.log",
+            "filename": "./logs/infos.log",
             "mode": "w",
             "formatter": "verbose",
         },
