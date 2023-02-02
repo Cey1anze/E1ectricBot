@@ -3,3 +3,5 @@
 /cmds/OtherApicmds/res/
 **/__pycache__
 /configs
+*.log
+*.json
