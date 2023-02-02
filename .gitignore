@@ -1,5 +1,4 @@
 /config.json
-/logs/infos.log
+/logs
 /cmds/OtherApicmds/res/
 **/__pycache__
-/configs/chatGPTconfig.json
