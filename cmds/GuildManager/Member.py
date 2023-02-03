@@ -1,11 +1,13 @@
 import datetime
 import discord
-import json
 from discord.app_commands import Choice
 from discord.ext import commands
 from discord import app_commands
-from Core.init_cog import InitCog
 from discord.utils import get
+from Core.init_cog import InitCog
+from Core import logger, loadjson
+
+logs = loadjson.load_logconfig()
 
 
 class Member(InitCog):
@@ -23,12 +25,16 @@ class Member(InitCog):
         if arg1:  # remove from old-role and join new-role
             await arg.remove_roles(oldrole)
             await arg.add_roles(newrole)
-            await ctx.send(embed=discord.Embed(description=f'{arg} 已从 {oldrole} 移除，并加入到 {newrole}',
-                                               colour=discord.Color.from_rgb(130, 156, 242)))
+            await ctx.send(
+                embed=discord.Embed(description=f'{arg} 已从 {oldrole} 移除，并加入到 {newrole}',
+                                    colour=discord.Color.from_rgb(130, 156, 242))
+            )
         else:  # dont remove other
             await arg.add_roles(newrole)
-            await ctx.send(embed=discord.Embed(description=f'{arg} 已加入到 {newrole}',
-                                               colour=discord.Color.from_rgb(130, 156, 242)))
+            await ctx.send(
+                embed=discord.Embed(description=f'{arg} 已加入到 {newrole}',
+                                    colour=discord.Color.from_rgb(130, 156, 242))
+            )
 
     # kick member by command,example: ?kick @user
     @commands.command(name='kick', help='踢除用户')
@@ -36,8 +42,17 @@ class Member(InitCog):
     async def kickmember(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
         await ctx.channel.purge(limit=1)
-        await ctx.send(embed=discord.Embed(description=f'{member} 已被踢出，原因:{reason}',
-                                           colour=discord.Color.from_rgb(130, 156, 242)))
+        await ctx.send(
+            embed=discord.Embed(description=f'{member} 已被踢出，原因:{reason}',
+                                colour=discord.Color.from_rgb(130, 156, 242))
+        )
+        logger.logwrite(
+            f'{ctx.author} 已踢出 {member} , 原因 : {reason}'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{ctx.author} 已踢出 {member} , 原因 : {reason}'
+        )
 
     # ban member by command,example: ?ban @user
     @commands.command(name='ban', help='封禁用户')
@@ -45,30 +60,50 @@ class Member(InitCog):
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
         await ctx.channel.purge(limit=1)
-        await ctx.send(embed=discord.Embed(description=f'{member} 已被封禁，原因:{reason}',
-                                           colour=discord.Color.from_rgb(130, 156, 242)))
+        await ctx.send(
+            embed=discord.Embed(description=f'{member} 已被封禁，原因:{reason}',
+                                colour=discord.Color.from_rgb(130, 156, 242))
+        )
+        logger.logwrite(
+            f'{ctx.author} 已封禁 {member} , 原因 : {reason}'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{ctx.author} 已封禁 {member} , 原因 : {reason}'
+        )
 
     @app_commands.command(name='mute', description='静音用户')
     @app_commands.describe(reason='静音的原因')
     async def mute(self, interaction: discord.Interaction, member: discord.Member, *, reason: str = None):
         if interaction.user.guild_permissions.mute_members:
-            try:
-                voice_state = member.voice
-                if voice_state:
-                    await interaction.response.defer()
-                    await member.edit(mute=True, reason=reason)
-                    await interaction.followup.send(embed=discord.Embed(description=f'{member} 已被静音 , 原因 : {reason}',
-                                                                        colour=discord.Color.from_rgb(130, 156, 242)))
-                else:
-                    await interaction.response.defer()
-                    await interaction.followup.send(embed=discord.Embed(description=f'**{member}** 不在任何语音频道中',
-                                                                        colour=discord.Color.from_rgb(130, 156, 242)))
-            except Exception as e:
-                print(e)
+            voice_state = member.voice
+            if voice_state:
+                await interaction.response.defer()
+                await member.edit(mute=True, reason=reason)
+                await interaction.followup.send(
+                    embed=discord.Embed(description=f'{member} 已被静音 , 原因 : {reason}',
+                                        colour=discord.Color.from_rgb(130, 156, 242))
+                )
+                logger.logwrite(
+                    f'{member} 已被静音 , 原因 : {reason}'
+                )
+                await logger.dclogwrite(
+                    channel=self.client.get_channel(logs['logger_channel']),
+                    msg=f'{member} 已被静音 , 原因 : {reason}'
+                )
+            else:
+                await interaction.response.defer()
+                await interaction.followup.send(
+                    embed=discord.Embed(description=f'**{member}** 不在任何语音频道中',
+                                        colour=discord.Color.from_rgb(130, 156, 242))
+                )
+
         else:
             await interaction.response.defer()
-            await interaction.followup.send(embed=discord.Embed(description=f'{interaction.user.mention} 没有执行这项操作的权限',
-                                                                colour=discord.Color.from_rgb(130, 156, 242)))
+            await interaction.followup.send(
+                embed=discord.Embed(description=f'{interaction.user.mention} 没有执行这项操作的权限',
+                                    colour=discord.Color.from_rgb(130, 156, 242))
+            )
 
     @app_commands.command(name='timeout', description='禁言用户')
     @app_commands.rename(option='禁言时间')
@@ -85,8 +120,10 @@ class Member(InitCog):
                       reason: str = None):
         if not interaction.user.guild_permissions.moderate_members:
             await interaction.response.defer()
-            await interaction.followup.send(embed=discord.Embed(description=f'{interaction.user.mention} 没有执行这项操作的权限',
-                                                                colour=discord.Color.from_rgb(130, 156, 242)))
+            await interaction.followup.send(
+                embed=discord.Embed(description=f'{interaction.user.mention} 没有执行这项操作的权限',
+                                    colour=discord.Color.from_rgb(130, 156, 242))
+            )
             return
 
         duration_map = {
@@ -101,8 +138,17 @@ class Member(InitCog):
         duration = duration_map.get(option, datetime.timedelta(minutes=1.0))
         await interaction.response.defer()
         await member.timeout(duration, reason=reason)
-        await interaction.followup.send(embed=discord.Embed(description=f'{member} 已被禁言 **{duration}**, 原因 : {reason}',
-                                                            colour=discord.Color.from_rgb(130, 156, 242)))
+        await interaction.followup.send(
+            embed=discord.Embed(description=f'{member} 已被禁言 **{duration}**, 原因 : {reason}',
+                                colour=discord.Color.from_rgb(130, 156, 242))
+        )
+        logger.logwrite(
+            f'{member} 已被禁言 **{duration}**, 原因 : {reason}'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{member} 已被禁言 **{duration}**, 原因 : {reason}'
+        )
 
     # unban member by command,example: ?unban @user
     @commands.command(name='unban', help='解封用户')
@@ -112,8 +158,17 @@ class Member(InitCog):
         user = discord.Object(id=userId)
         await ctx.guild.unban(user)
         await ctx.channel.purge(limit=1)
-        await ctx.send(embed=discord.Embed(description=f'已解除 {userId} 的封禁',
-                                           colour=discord.Color.from_rgb(130, 156, 242)))
+        await ctx.send(
+            embed=discord.Embed(description=f'已解除 {userId} 的封禁',
+                                colour=discord.Color.from_rgb(130, 156, 242))
+        )
+        logger.logwrite(
+            f'{ctx.author} 已解除 {userId} 的封禁'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{ctx.author} 已解除 {userId} 的封禁'
+        )
 
 
 async def setup(client):

@@ -1,11 +1,9 @@
-from discord.utils import get
 from discord.ext import commands
 from Core.init_cog import InitCog
-from Core import loadjson
+from Core import loadjson, logger
 
-jdata = loadjson.load_mainconfig()
 channel = loadjson.load_channelconfig()
-roles = loadjson.load_roleconfig()
+logs = loadjson.load_logconfig()
 
 
 class ChannelManage(InitCog):
@@ -14,14 +12,26 @@ class ChannelManage(InitCog):
     @commands.Cog.listener()
     async def on_member_join(self, member):
         welchannel = self.client.get_channel(int(channel['welchannel-id']))
-        # Optional : give a role when new members join,id = role_id,Separate roles from online status
         await welchannel.send(f'欢迎 {member} 进入频道')
-        # give a role when new member joined,id = role_id
+        logger.logwrite(
+            f'{member} 加入了频道'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{member} 加入了频道'
+        )
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        levchannel = self.client.get_channel(int(channel['welchannel-id']))
-        await levchannel.send(f'{member} 退出了频道')
+        welchannel = self.client.get_channel(int(channel['welchannel-id']))
+        await welchannel.send(f'{member} 退出了频道')
+        logger.logwrite(
+            f'{member} 退出了频道'
+        )
+        await logger.dclogwrite(
+            channel=self.client.get_channel(logs['logger_channel']),
+            msg=f'{member} 退出了频道'
+        )
 
 
 async def setup(client):
