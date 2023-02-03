@@ -1,0 +1,6 @@
+{
+  "client_id": "spotify client_id",
+  "client_secret": "spotify client_secret",
+  "lrc_key": "your lrc_key",
+  "logging_channelid": "channel_id where bot send logs"
+}

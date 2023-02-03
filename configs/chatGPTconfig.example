@@ -1,0 +1,4 @@
+{
+  "discord_channel_id": "channel_id that bot reply to user",
+  "openAI_key": "your openai_key"
+}
