@@ -1,7 +1,5 @@
 /config.json
-/logs
+/logs/*.log
 /cmds/OtherApicmds/res/
 **/__pycache__
-/configs
-*.log
-*.json
+/configs/*.json
