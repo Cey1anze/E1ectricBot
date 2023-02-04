@@ -139,7 +139,7 @@ Modify all `.example` files in the configs directory to `. json`, open and modif
 
 **Explanation of config file content:**
 
-check [here]([E1ectricBot/configs.md at master · HYBBWuXiDiXi/E1ectricBot · GitHub](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/readme/configs.md))
+check [here](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/readme/configs.md)
 
 ### Step 3:
 
