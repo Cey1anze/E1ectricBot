@@ -1,11 +1,11 @@
 # coding:utf-8
-from aliyunsdkcore.client import AcsClient
-from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
-
 import json
-import langid
+
 import discord
+import langid
 import pyperclip as pc
+from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
+from aliyunsdkcore.client import AcsClient
 from discord import app_commands
 from discord.app_commands import Choice
 
@@ -44,11 +44,11 @@ def get_translate(text: str):
 # 创建嵌入式消息
 def create_embed(text):
     judge = get_translate(text)
-    line = '-' * 12
     if not isinstance(judge, Exception):
         embed = discord.Embed(title="翻译结果", description=f'已切换显示模式为 : {isPrivate} ,如需切换显示模式，请点击下方按钮', color=0x00ff00)
-        embed.add_field(name=f'{line}原文{line}', value=text, inline=False)
-        embed.add_field(name=f'{line}译文{line}', value=f'{get_translate(text)}', inline=False)
+        embed.add_field(name='翻译模式', value=f'{langid.classify(text)[0]} -> {lang}', inline=False)
+        embed.add_field(name=f'原文', value=text, inline=False)
+        embed.add_field(name=f'译文', value=f'{get_translate(text)}', inline=False)
         embed.set_footer(text='Translate engine powered by Aliyun')
         return embed
     else:

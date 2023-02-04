@@ -1,8 +1,8 @@
+import Paginator
 import discord
 import requests
-import Paginator
-
 from discord import app_commands, Embed
+
 from Core.init_cog import InitCog
 
 similarity: str

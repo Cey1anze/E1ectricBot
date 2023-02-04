@@ -9,9 +9,9 @@ from typing import Optional
 import lyricsgenius
 import spotipy
 import wavelink
+from logs import settings
 from spotipy import SpotifyException
 
-from logs import settings
 from cmds.Music.src.utils.spotify_models import SpotifyTrack
 
 logger = settings.logging.getLogger(__name__)

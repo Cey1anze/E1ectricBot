@@ -1,10 +1,9 @@
-import requests
-import discord
-from discord.app_commands import Choice
-from discord.ext import commands
-from discord import app_commands
-from Basic_bot.Core.init_cog import InitCog
 import Paginator
+import discord
+import requests
+from discord import app_commands
+
+from Basic_bot.Core.init_cog import InitCog
 
 
 def get_server(name):

@@ -10,11 +10,11 @@ import discord
 import lyricsgenius
 import spotipy
 import wavelink
+from logs import settings
 from spotipy import Spotify, SpotifyClientCredentials, SpotifyException
 
-from logs import settings
-from cmds.Music.src.utils.responses import Responses
 from Core.loadjson import load_musicconfig
+from cmds.Music.src.utils.responses import Responses
 
 music = load_musicconfig()
 

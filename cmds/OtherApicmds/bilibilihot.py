@@ -1,11 +1,9 @@
 import Paginator
-import discord
-
-from discord import app_commands
-from Core.init_cog import InitCog
-
-import asyncio
 import aiohttp
+import discord
+from discord import app_commands
+
+from Core.init_cog import InitCog
 
 
 async def get_bili_hot():
@@ -48,7 +46,7 @@ async def get_bili_hot():
             urllist.append(url)
 
         for i in range(len(titlelist)):
-            page[i] = discord.Embed(title=f'{titlelist[i]}', url='https:'+f'{urllist[i]}', colour=0x388ce5)
+            page[i] = discord.Embed(title=f'{titlelist[i]}', url='https:' + f'{urllist[i]}', colour=0x388ce5)
             page[i].add_field(name="观看次数", value=f'{hotlist[i]}', inline=True)
             page[i].add_field(name="数据更新时间", value=f'{updatelist[i]}', inline=True)
             page[i].add_field(name='\u200B', value='\u200B', inline=True)

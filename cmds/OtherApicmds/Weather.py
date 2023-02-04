@@ -1,9 +1,7 @@
-import json
-
-import requests
 import discord
-from discord.ext import commands
+import requests
 from discord import app_commands
+
 from Basic_bot.Core.init_cog import InitCog
 
 

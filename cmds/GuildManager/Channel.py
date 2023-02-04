@@ -1,6 +1,7 @@
 from discord.ext import commands
-from Core.init_cog import InitCog
+
 from Core import loadjson, logger
+from Core.init_cog import InitCog
 
 channel = loadjson.load_channelconfig()
 logs = loadjson.load_logconfig()

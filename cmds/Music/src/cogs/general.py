@@ -3,8 +3,8 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-
 from logs import settings
+
 from cmds.Music.src.utils.music_helper import MusicHelper
 
 logger = settings.logging.getLogger(__name__)

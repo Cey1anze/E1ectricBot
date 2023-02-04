@@ -4,7 +4,6 @@ Just a function for loading all cogs for the client
 import os
 
 from discord.ext import commands
-
 from logs import settings
 
 logger = settings.logging.getLogger(__name__)

@@ -4,8 +4,9 @@ import os
 import discord
 import wavelink
 from discord.ext import commands
-from Basic_bot.Core import loadjson
 from logs import settings
+
+from Basic_bot.Core import loadjson
 
 jdata = loadjson.load_mainconfig()
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())

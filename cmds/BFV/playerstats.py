@@ -1,8 +1,8 @@
-import requests
 import discord
-from discord.app_commands import Choice
-from discord.ext import commands
+import requests
 from discord import app_commands
+from discord.app_commands import Choice
+
 from Core.init_cog import InitCog
 
 

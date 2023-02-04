@@ -1,12 +1,12 @@
-import requests
 import base64
 
-from discord.ext import commands
-from lxml import etree
-import discord
-from discord import app_commands
-from Basic_bot.Core.init_cog import InitCog
 import Paginator
+import discord
+import requests
+from discord import app_commands
+from lxml import etree
+
+from Basic_bot.Core.init_cog import InitCog
 
 base_url = "aHR0cHM6Ly9zdG9yZS5zdGVhbXBvd2VyZWQuY29tL3NlYXJjaC8/c3BlY2lhbHM9MQ=="
 url = base64.b64decode(base_url).decode()
@@ -76,8 +76,6 @@ def get_info():
         link = i.xpath("./a/@href")
         img = i.xpath(".//a/div[@class='col search_capsule']/img/@src")
 
-
-
     # print(len(titlelist))
     # print(len(discountlist))
     # print(len(pricelist))
@@ -88,12 +86,15 @@ def get_info():
 
     # Creat Embed
     for i in range(len(titlelist)):
-        page[i] = discord.Embed(title=f'{titlelist[i]}',description='此为新加坡区价格，相比于国区更贵', url=f'{link[i]}', colour=0x388ce5)
+        page[i] = discord.Embed(title=f'{titlelist[i]}', description='此为新加坡区价格，相比于国区更贵', url=f'{link[i]}',
+                                colour=0x388ce5)
         page[i].add_field(name="折扣", value=f'{discountlist[i]}', inline=True)
         page[i].add_field(name='\u200B', value='\u200B', inline=True)
-        page[i].add_field(name="原价", value=f'{round(float(pricelist[i].replace("S$",""))*5.1)} ¥', inline=True)
-        page[i].add_field(name="现价", value=f'{round(float(newpricelist[i].replace("S$",""))*5.1)} ¥', inline=True)
-        page[i].add_field(name="评价", value=f'{str(summarylist[i]).replace("<br>", ",").replace("[","").replace("]","")}', inline=False)
+        page[i].add_field(name="原价", value=f'{round(float(pricelist[i].replace("S$", "")) * 5.1)} ¥', inline=True)
+        page[i].add_field(name="现价", value=f'{round(float(newpricelist[i].replace("S$", "")) * 5.1)} ¥', inline=True)
+        page[i].add_field(name="评价",
+                          value=f'{str(summarylist[i]).replace("<br>", ",").replace("[", "").replace("]", "")}',
+                          inline=False)
         page[i].set_image(url=img[i])
 
     return page

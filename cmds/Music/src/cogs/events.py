@@ -1,10 +1,10 @@
 """Discord cog for all Wavelink events"""
 import wavelink
 from discord.ext import commands
-
 from logs import settings
-from cmds.Music.src.utils.music_helper import MusicHelper
+
 from Core.loadjson import load_musicconfig
+from cmds.Music.src.utils.music_helper import MusicHelper
 
 logger = settings.logging.getLogger(__name__)
 channellog = load_musicconfig()

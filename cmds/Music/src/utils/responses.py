@@ -12,9 +12,9 @@ import discord as dpy
 import lyricsgenius
 import spotipy
 import wavelink as wl
+from logs import settings
 from spotipy import SpotifyException
 
-from logs import settings
 from cmds.Music.src.utils.functions import Functions
 
 logger = settings.logging.getLogger(__name__)
