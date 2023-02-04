@@ -76,7 +76,7 @@ exceptions)
 
 ## Windows
 
-##### step 1:
+### step 1:
 
 ```
 git clone https://github.com/HYBBWuXiDiXi/E1ectricBot.git
@@ -125,7 +125,7 @@ cd ../aliyun-python-sdk-alimt
 python setup.py install
 ```
 
-##### Step 2:
+### Step 2:
 
 **Setup configs:**
 
@@ -141,7 +141,7 @@ Modify all `.example` files in the configs directory to `. json`, open and modif
 
 check [here]([E1ectricBot/configs.md at master · HYBBWuXiDiXi/E1ectricBot · GitHub](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/readme/configs.md))
 
-##### Step 3:
+### Step 3:
 
 **Well Done,All you need to do next is run the bot**
 

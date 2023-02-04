@@ -72,7 +72,7 @@ E1ectric是一个简易的Discord机器人，可以执行许多查询功能，�
 
 ## Windows
 
-##### step 1:
+### step 1:
 
 ```
 git clone https://github.com/HYBBWuXiDiXi/E1ectricBot.git  
@@ -120,7 +120,7 @@ cd ../aliyun-python-sdk-alimt
 python setup.py install  
 ```
 
-##### Step 2:
+### Step 2:
 
 **设置配置文件:**
 
@@ -136,7 +136,7 @@ python setup.py install
 
 点它 -> [here](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/readme/configs.md)
 
-##### Step 3:
+### Step 3:
 
 **接下来只需要运行机器人**
 
@@ -144,7 +144,7 @@ python setup.py install
 python3 Basic_main.py  
 ```
 
-##  
+##   
 
 ## Linux
 
