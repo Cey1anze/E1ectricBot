@@ -63,8 +63,7 @@ guide.You can turn E1ectric into an admin bot, music bot, search bot,new best fr
 (without these two optional accounts,bot can will not be able to run the corresponding functions and will throw
 exceptions)
 
-- Spotify for developers
-  on [Spotify Dashboard]([My Dashboard | Spotify for Developers](https://developer.spotify.com/dashboard/))
+- Spotify for developers on [Spotify Dashboard](https://developer.spotify.com/dashboard/)
 
 - Alibabacloud on [Aliyun Machine Translate](https://www.alibabacloud.com/product/machine-translation)
 
