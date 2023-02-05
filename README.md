@@ -1,6 +1,7 @@
 <h1 align="center">
   E1ectricBot
   <br>
+
 </h1>
 
 <h4 align="center">Music, Qurey, AutoLog and Moderation.</h4>
@@ -60,10 +61,14 @@ guide.You can turn E1ectric into an admin bot, music bot, search bot,new best fr
 
 **Optional:**
 
-(without these two optional accounts,bot can will not be able to run the corresponding functions and will throw
-exceptions)
+The bot cannot run the corresponding functions without API keys through these optional accounts, and will result in
+exceptions being thrown.
 
 - Spotify for developers on [Spotify Dashboard](https://developer.spotify.com/dashboard/)
+
+- Genius on [Genius Developers](https://genius.com/developers)
+
+- Openai on [OpenAI](https://platform.openai.com/signup)
 
 - Alibabacloud on [Aliyun Machine Translate](https://www.alibabacloud.com/product/machine-translation)
 
@@ -75,7 +80,7 @@ exceptions)
 
 ## Windows
 
-### step 1:
+##### step 1:
 
 ```
 git clone https://github.com/HYBBWuXiDiXi/E1ectricBot.git
@@ -89,8 +94,8 @@ pip install -r requirements.txt
 
 **Additional - For Translator:**
 
-DO it if you want to use translator function,Otherwise,just delete translate.py in cmds/OtherApicmds(if you keep this
-.py flie,bot will throw an exception)
+To use the translator function, perform this action. Otherwise, delete the 'translate.py' file in the '
+cmds/OtherApicmds' directory to avoid exceptions being thrown.
 
 ```
 cd ./cmds/OtherApicmds
@@ -124,7 +129,7 @@ cd ../aliyun-python-sdk-alimt
 python setup.py install
 ```
 
-### Step 2:
+##### Step 2:
 
 **Setup configs:**
 
@@ -140,7 +145,7 @@ Modify all `.example` files in the configs directory to `. json`, open and modif
 
 check [here](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/readme/configs.md)
 
-### Step 3:
+##### Step 3:
 
 **Well Done,All you need to do next is run the bot**
 
@@ -161,11 +166,8 @@ If after reading the guide you are still experiencing issues, feel free to join
 healthily. Even if you don't know anything about programming, it is welcome to provide advice and code support in the
 community.
 
-Join me on [My Server]([e1ectronic的服务器](https://discord.gg/vWbkrGPyWY))!
+Join me on [My Server](https://discord.gg/vWbkrGPyWY)!
 
 # License
 
 Released under the [MIT](https://mit-license.org/) license.
-
-
-

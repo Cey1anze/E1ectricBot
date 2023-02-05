@@ -58,9 +58,13 @@ E1ectric是一个简易的Discord机器人，可以执行许多查询功能，�
 
 **可选项：**
 
-如果没有创建这两个可选帐户，机器人将无法运行相应的功能，并且可能会抛出异常，在不创建这两个账户的前提下，您只需删除cmds目录下的music文件夹以及OtherApicmds目录下的translate.py即可解决抛出异常的问题
+如果不创建这些帐户并获得api调取密钥，机器人将无法运行相应的功能，并且可能会抛出异常，在不创建这两个账户的前提下，您只需删除cmds目录下的music文件夹以及OtherApicmds目录下的translate.py即可解决抛出异常的问题
 
 - Spotify for developers on [Spotify Dashboard](https://developer.spotify.com/dashboard/)
+
+- Genius on [Genius Developers](https://genius.com/developers)
+
+- Openai on [OpenAI](https://platform.openai.com/signup)
 
 - Alibabacloud on [Aliyun Machine Translate](https://www.alibabacloud.com/product/machine-translation)
 
@@ -86,7 +90,7 @@ pip install -r requirements.txt
 
 **额外操作 - For Translator:**
 
-如果要使用翻译功能，请执行以下操作，否则，只需删除cmdsOtherApicmds中的translate.py (如果不删除，机器人可能会抛出异常 ！！
+如果要使用翻译功能，请执行以下操作，否则，只需删除cmdsOtherApicmds中的translate.py 如不删除，机器人可能会抛出异常 ！！
 
 ```
 cd ./cmds/OtherApicmds  
@@ -144,7 +148,7 @@ python setup.py install
 python3 Basic_main.py  
 ```
 
-##   
+##     
 
 ## Linux
 
