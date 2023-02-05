@@ -28,7 +28,7 @@ configs to let bot run properly**
 
 - [translate.json](#translate.json)
 
-##### configs.json
+### configs.json
 
 | Field name | Type   | Descripiton       |
 |:----------:|:------:|:-----------------:|
@@ -46,7 +46,7 @@ configs to let bot run properly**
 
 ![discord](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/discord.png)
 
-##### channel.json
+### channel.json
 
 Please set a welcome channel for the bot to send a welcome message to new members upon joining the server.
 
@@ -64,7 +64,7 @@ Please set a welcome channel for the bot to send a welcome message to new member
 
 ![channel](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/channel.png)
 
-##### chatGPTconfig.json
+### chatGPTconfig.json
 
 Please set a channel for the bot to respond to your messages, and provide an OpenAI key to grant the bot API access.
 
@@ -84,7 +84,7 @@ Please set a channel for the bot to respond to your messages, and provide an Ope
 
 ![openai](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/openai.png "openai")
 
-##### logger.json
+### logger.json
 
 Please set a log channel for the bot to send server logs.
 
@@ -98,7 +98,7 @@ Please set a log channel for the bot to send server logs.
 }
 ```
 
-##### music.json
+### music.json
 
 To use the music function, you need to set up both a Spotify Developer account and a Genius Developer account.
 
@@ -134,7 +134,7 @@ To use the music function, you need to set up both a Spotify Developer account a
 
   ![genius_client](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/genius_client.png)
 
-##### translate.json
+### translate.json
 
 To use the translate function, you need to obtain an Alibaba Access Key.
 
