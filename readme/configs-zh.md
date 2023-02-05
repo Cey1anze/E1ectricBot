@@ -27,7 +27,7 @@
 
 - [translate.json](#translate.json)
 
-##### configs.json
+### configs.json
 
 | Field name | Type   | Descripiton       |
 |:----------:|:------:|:-----------------:|
@@ -45,7 +45,7 @@
 
 ![discord](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/discord.png)
 
-##### channel.json
+### channel.json
 
 请设置一个欢迎频道，以便在新成员加入服务器时向频道中发送欢迎消息。
 
@@ -63,7 +63,7 @@
 
 ![channel](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/channel.png)
 
-##### chatGPTconfig.json
+### chatGPTconfig.json
 
 请设定一个频道，让机器人在此频道回复您的消息，并同时提供OpenAI密钥以授予机器人API访问权限。
 
@@ -83,7 +83,7 @@
 
 ![openai](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/openai.png "openai")
 
-##### logger.json
+### logger.json
 
 请设置一个频道，用于让机器人发送服务器日志。
 
@@ -97,7 +97,7 @@
 }
 ```
 
-##### music.json
+### music.json
 
 为了使用音乐功能，您需要同时设置Spotify开发人员账户和Genius开发人员账户。
 
@@ -133,7 +133,7 @@
 
   ![genius_client](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/genius_client.png)
 
-##### translate.json
+### translate.json
 
 如需使用翻译功能，请设置阿里云账户。
 
