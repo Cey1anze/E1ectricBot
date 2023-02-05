@@ -44,6 +44,8 @@ configs to let bot run properly**
 
 [Discord Developer Portal](https://discord.com/developers)
 
+![discord](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/discord.png)
+
 ##### channel.json
 
 Please set a welcome channel for the bot to send a welcome message to new members upon joining the server.
@@ -60,7 +62,7 @@ Please set a welcome channel for the bot to send a welcome message to new member
 
 **How to get channel id:**
 
-![channel](https://recordit.co/j95YI1vnbl)
+![channel](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/channel.png)
 
 ##### chatGPTconfig.json
 
@@ -79,6 +81,8 @@ Please set a channel for the bot to respond to your messages, and provide an Ope
 ```
 
 **How to get openai key:**
+
+![openai](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/openai.png "openai")
 
 ##### logger.json
 
@@ -118,8 +122,17 @@ To use the music function, you need to set up both a Spotify Developer account a
 
 - **Spotify**
 
+  ![spotify](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/spotify.png)
+
+  ![spotify_client](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/spotify_client.png)
 
 - **Genius**
+
+  ![genius](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/genius.png)
+
+  ![genius-1](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/genius-1.png)
+
+  ![genius_client](https://github.com/HYBBWuXiDiXi/E1ectricBot/blob/master/images/genius_client.png)
 
 ##### translate.json
 
@@ -143,4 +156,3 @@ To use the translate function, you need to obtain an Alibaba Access Key.
 
 just
 check [Offical Documentation](https://www.alibabacloud.com/help/en/basics-for-beginners/latest/obtain-an-accesskey-pair)
-
