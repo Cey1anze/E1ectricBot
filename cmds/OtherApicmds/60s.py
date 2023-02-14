@@ -1,18 +1,6 @@
 import discord
-import requests
 from discord import app_commands
 from Core.init_cog import InitCog
-
-
-def get60s():
-    try:
-        url = "http://www.lpv4.cn:10000/api/60s"
-        r = requests.get(url, allow_redirects=False)
-        result = r.headers['Location']
-        return result
-
-    except Exception as e:
-        print(e)
 
 
 class Sixty(InitCog):
@@ -20,9 +8,8 @@ class Sixty(InitCog):
     @app_commands.command(name='60s', description='每天60s读懂世界')
     async def sixty(self, interaction: discord.Interaction):
         await interaction.response.defer()
-        img = get60s()
         embed = discord.Embed()
-        embed.set_image(url=img)
+        embed.set_image(url="https://zj.v.api.aa1.cn/api/60s-v2/?cc=e1e'bot'")
         await interaction.followup.send(embed=embed)
 
 
