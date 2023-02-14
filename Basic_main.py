@@ -34,6 +34,9 @@ async def setup_hook():
     for Filename in os.listdir('./cmds/GuildManager'):
         if Filename.endswith('.py'):
             await client.load_extension(f'cmds.GuildManager.{Filename[:-3]}')
+    for Filename in os.listdir('cmds/Netease_Dev'):
+        if Filename.endswith('.py'):
+            await client.load_extension(f'cmds.Netease_Dev.{Filename[:-3]}')
 
 
 @client.command(name='load', help='加载模组')
