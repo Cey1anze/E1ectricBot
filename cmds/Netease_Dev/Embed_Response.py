@@ -6,12 +6,16 @@ def user_not_joined() -> discord.Embed:
     return discord.Embed(title='请先加入语音频道', colour=discord.Color.red())
 
 
+def bot_not_joined() -> discord.Embed:
+    return discord.Embed(title='机器人未进入语音频道', colour=discord.Color.red())
+
+
 def joined_voice() -> discord.Embed:
-    return discord.Embed(title='已加入语音频道', colour=discord.Color.green())
+    return discord.Embed(title='机器人已加入语音频道', colour=discord.Color.green())
 
 
 def leaved_voice() -> discord.Embed:
-    return discord.Embed(title='已离开语音频道', colour=discord.Color.green())
+    return discord.Embed(title='机器人已离开语音频道', colour=discord.Color.green())
 
 
 def music_not_playing() -> discord.Embed:
