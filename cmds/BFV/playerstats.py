@@ -15,7 +15,6 @@ def get_playerstats(name, platform):
         name, platform)
     r = requests.get(url)
     result = r.json()
-    print(result)
     try:
 
         if 'errors' in result:
