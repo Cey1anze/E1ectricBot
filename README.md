@@ -4,7 +4,7 @@
 
 </h1>
 
-<h4 align="center">Music, Qurey, AutoLog and Moderation.</h4>
+<h4 align="center">Music, Qurey, AutoLog and Management.</h4>
 
 <p align="center">
   <a href="https://www.python.org/downloads/">
@@ -43,7 +43,7 @@ guide.You can turn E1ectric into an admin bot, music bot, search bot,new best fr
 
 **E1ectric Bot includes:**
 
-- Moderation features (kick / ban / unban / mute / timeout / chat cleanup)
+- Manager features (kick / ban / unban / mute / timeout / chat cleanup / reaction roles)
 - Music features (Spotify, playlists, queues)
 - Query features(game status search,weather search,picture search)
 - AutoLog features(auto log guild events in both discord channels and local log files)
@@ -160,7 +160,7 @@ python3 Basic_main.py
 If after reading the guide you are still experiencing issues, feel free to join
 [My Server](https://discord.gg/vWbkrGPyWY) and ask in the **#About Bot** channel for help.
 
-# Join My community!
+# Join My Server!
 
 **E1ectric** is in continuous development, and it’s not fully complete,I welcome anyone who wants to make robots develop
 healthily. Even if you don't know anything about programming, it is welcome to provide advice and code support in the

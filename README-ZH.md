@@ -3,7 +3,7 @@
   <br>  
 </h1>
 
-<h4 align="center">Music, Qurey, AutoLog and Moderation.</h4>
+<h4 align="center">Music, Qurey, AutoLog and Management.</h4>
 
 <p align="center">  
   <a href="https://www.python.org/downloads/">  
@@ -148,7 +148,7 @@ python setup.py install
 python3 Basic_main.py  
 ```
 
-##     
+##      
 
 ## Linux
 
