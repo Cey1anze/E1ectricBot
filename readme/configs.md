@@ -28,6 +28,8 @@ configs to let bot run properly**
 
 - [translate.json](#translate.json)
 
+- [member.json](#member.json)
+
 ### configs.json
 
 | Field name | Type   | Descripiton       |
@@ -156,3 +158,21 @@ To use the translate function, you need to obtain an Alibaba Access Key.
 
 just
 check [Offical Documentation](https://www.alibabacloud.com/help/en/basics-for-beginners/latest/obtain-an-accesskey-pair)
+
+### member.json
+
+Everything You Need To Set From GuildManage About Members.（For now, just for reaction roles）
+
+| Field name | Type   | Descripiton                                                |
+|:----------:|:------:|:---------------------------------------------------------: |
+| Message_id | int    | message id for reaction role                               |
+| emoji      | list   | emojis（just copy emoji to this list）                      |
+| role_name  | list   | role names（Ensure a one-to-one correspondence with emojis）|
+
+```
+{
+    "Message_id":1076464925465133147,
+    "emoji": ["\uD83D\uDD35","\uD83D\uDFE3","\uD83D\uDFE2","\uD83D\uDFE1"],
+    "role_name": ["卧槽~~原?","有为青年!!!","Norch","萨尼铁塔~~"]
+}
+```

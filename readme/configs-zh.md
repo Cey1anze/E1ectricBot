@@ -154,3 +154,21 @@
 **如何获得阿里云AccessKey:**
 
 请看 [阿里云官方文档](https://help.aliyun.com/document_detail/116401.htm?spm=a2c4g.11186623.0.0.b22b36692HkJOq#task-2245479)
+
+### member.json
+
+这里包含了所有关于成员管理的配置。（目前只作为reaction-role的配置）
+
+| Field name | Type   | Descripiton                      |
+|:----------:|:------:|:-------------------------------: |
+| Message_id | int    | 用户需要添加反应贴纸的消息ID          |
+| emoji      | list   | 表情（直接将表情追加复制到这个列表中）  |
+| role_name  | list   | 身份组名字（确保顺序和表情是一一对应的） |
+
+```
+{
+    "Message_id":1076464925465133147,
+    "emoji": ["\uD83D\uDD35","\uD83D\uDFE3","\uD83D\uDFE2","\uD83D\uDFE1"],
+    "role_name": ["卧槽~~原?","有为青年!!!","Norch","萨尼铁塔~~"]
+}
+```
