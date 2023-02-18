@@ -42,7 +42,7 @@ async def setup_hook():
 @client.command(name='load', help='加载模组')
 async def load(ctx, extension):
     try:
-        await client.load_extension(f"cmds.{extension}")
+        await client.load_extension(f"cmds.GuildManager.{extension}")
         load_embed = discord.Embed(color=discord.Color.from_rgb(130, 156, 242),
                                    description=f"**{extension}** 已成功载入")
         await ctx.send(embed=load_embed)
@@ -60,7 +60,7 @@ async def load(ctx, extension):
 @client.command(name='unload', help='卸载模组')
 async def unload(ctx, extension):
     try:
-        await client.unload_extension(f"cmds.{extension}")
+        await client.unload_extension(f"cmds.GuildManager.{extension}")
         unload_embed = discord.Embed(color=discord.Color.from_rgb(130, 156, 242),
                                      description=f"**{extension}** 已成功卸载")
         await ctx.send(embed=unload_embed)
@@ -74,7 +74,7 @@ async def unload(ctx, extension):
 @client.command(name='reload', help='重载模组')
 async def reload(ctx, extension):
     try:
-        await client.reload_extension(f"cmds.{extension}")
+        await client.reload_extension(f"cmds.GuildManager.{extension}")
         reload_embed = discord.Embed(color=discord.Color.from_rgb(130, 156, 242),
                                      description=f"**{extension}** 已重新载入")
         await ctx.send(embed=reload_embed)
