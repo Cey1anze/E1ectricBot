@@ -10,6 +10,8 @@ from Core import logger, loadjson
 from Core.init_cog import InitCog
 
 logs = loadjson.load_logconfig()
+reaction = loadjson.load_reactionconfig()
+current_role = []
 
 
 class Member(InitCog):
@@ -171,6 +173,56 @@ class Member(InitCog):
             channel=self.client.get_channel(logs['logger_channel']),
             msg=f'{ctx.author} 已解除 {userId} 的封禁'
         )
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        # 检查贴纸是否是您所期望的贴纸
+        if payload.message_id == reaction['Message_id']:
+            # 从消息所在的服务器中获取成员
+            guild = self.client.get_guild(payload.guild_id)
+            member = guild.get_member(payload.user_id)
+            if member is not None:
+                # 将成员添加到身份组中
+                emoji = payload.emoji
+                role = None
+                if emoji == reaction['emoji'][0]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][0])
+                elif emoji.name == reaction['emoji'][1]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][1])
+                elif emoji.name == reaction['emoji'][2]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][2])
+                elif emoji.name == reaction['emoji'][3]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][3])
+
+                if role is not None:
+                    await member.add_roles(role)
+                    current_role.append(role)
+                if len(current_role) > 1:
+                    index = current_role.index(role)
+                    await member.remove_roles(current_role.pop(index - 1))
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_remove(self, payload):
+        # 检查贴纸是否是您所期望的贴纸
+        if payload.message_id == reaction['Message_id']:
+            # 从消息所在的服务器中获取成员
+            guild = self.client.get_guild(payload.guild_id)
+            member = guild.get_member(payload.user_id)
+            if member is not None:
+                role = None
+                # 将成员添加到身份组中
+                emoji = payload.emoji
+                if emoji == reaction['emoji'][0]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][0])
+                elif emoji.name == reaction['emoji'][1]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][1])
+                elif emoji.name == reaction['emoji'][2]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][2])
+                elif emoji.name == reaction['emoji'][3]:
+                    role = discord.utils.get(guild.roles, name=reaction['role_name'][3])
+                if role is not None and role in member.roles:
+                    await member.remove_roles(role)
+                    current_role.remove(role)
 
 
 async def setup(client):

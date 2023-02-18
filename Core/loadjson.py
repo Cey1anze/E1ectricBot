@@ -41,3 +41,9 @@ def load_logconfig():
     with open('./configs/logger.json', 'r', encoding='UTF-8') as jf:
         log = json.load(jf)
         return log
+
+
+def load_reactionconfig():
+    with open('./configs/member.json', 'r', encoding='UTF-8') as jf:
+        rea = json.load(jf)
+        return rea
