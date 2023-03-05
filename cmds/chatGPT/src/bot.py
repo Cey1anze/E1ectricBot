@@ -1,114 +1,125 @@
 import discord
 from discord import app_commands
-
+from Basic_main import client
+from Core.init_cog import InitCog
 from Basic_bot.cmds.chatGPT import responses
 from Core import loadjson
-from Core.init_cog import InitCog
 
 config = loadjson.load_chatconfig()
 
 isPrivate = False
+chat_model = 'OFFICIAL'
 
 
 async def send_message(message, user_message):
+    author = message.user.id
     await message.response.defer(ephemeral=isPrivate)
     try:
         response = '> **' + user_message + '** - <@' + \
-                   str(message.user.id) + '>\n\n'
-        response = f"{response}{user_message}{await responses.handle_response(user_message)}"
-        if len(response) > 1900:
-            # Split the response into smaller chunks of no more than 1900 characters each(Discord limit is 2000 per chunk)
+                   str(author) + '> \n\n'
+        if chat_model == "OFFICIAL":
+            response = f"{response}{await responses.official_handle_response(user_message)}"
+        elif chat_model == "UNOFFICIAL":
+            response = f"{response}{await responses.unofficial_handle_response(user_message)}"
+        char_limit = 1900
+        if len(response) > char_limit:
             if "```" in response:
-                # Split the response if the code block exists
                 parts = response.split("```")
-                # Send the first message
-                await message.followup.send(parts[0])
-                # Send the code block in a seperate message
-                code_block = parts[1].split("\n")
-                formatted_code_block = ""
-                for line in code_block:
-                    while len(line) > 1900:
-                        # Split the line at the 50th character
-                        formatted_code_block += line[:1900] + "\n"
-                        line = line[1900:]
-                    formatted_code_block += line + "\n"  # Add the line and seperate with new line
 
-                # Send the code block in a separate message
-                if (len(formatted_code_block) > 2000):
-                    code_block_chunks = [formatted_code_block[i:i + 1900]
-                                         for i in range(0, len(formatted_code_block), 1900)]
-                    for chunk in code_block_chunks:
-                        await message.followup.send("```" + chunk + "```")
-                else:
-                    await message.followup.send("```" + formatted_code_block + "```")
+                for i in range(0, len(parts)):
+                    if i % 2 == 0:
+                        await message.followup.send(parts[i])
 
-                # Send the remaining of the response in another message
+                    else:
+                        code_block = parts[i].split("\n")
+                        formatted_code_block = ""
+                        for line in code_block:
+                            while len(line) > char_limit:
+                                # Split the line at the 50th character
+                                formatted_code_block += line[:char_limit] + "\n"
+                                line = line[char_limit:]
+                            formatted_code_block += line + "\n"
 
-                if len(parts) >= 3:
-                    await message.followup.send(parts[2])
+                        if (len(formatted_code_block) > char_limit + 100):
+                            code_block_chunks = [formatted_code_block[i:i + char_limit]
+                                                 for i in range(0, len(formatted_code_block), char_limit)]
+                            for chunk in code_block_chunks:
+                                await message.followup.send("```" + chunk + "```")
+                        else:
+                            await message.followup.send("```" + formatted_code_block + "```")
+
             else:
-                response_chunks = [response[i:i + 1900]
-                                   for i in range(0, len(response), 1900)]
+                response_chunks = [response[i:i + char_limit]
+                                   for i in range(0, len(response), char_limit)]
                 for chunk in response_chunks:
                     await message.followup.send(chunk)
         else:
             await message.followup.send(response)
-    except Exception as e:
-        await message.followup.send("> **Error: 出错了，请稍后重试!**")
+    except Exception:
+        await message.followup.send("> **Error: 出现错误, 请稍后重试!**")
 
 
-async def send_start_prompt(client):
-    import os.path
+class Chat(InitCog):
 
-    config_dir = os.path.abspath(__file__ + "/../../")
-    prompt_name = 'starting-prompt.txt'
-    prompt_path = os.path.join(config_dir, prompt_name)
-    try:
-        if os.path.isfile(prompt_path) and os.path.getsize(prompt_path) > 0:
-            with open(prompt_path, "r") as f:
-                prompt = f.read()
-                responseMessage = await responses.handle_response(prompt)
-                if (config['discord_channel_id']):
-                    channel = client.get_channel(int(config['discord_channel_id']))
-                    await channel.send(responseMessage)
-    except Exception as e:
-        print(e)
-
-
-class aclient(InitCog):
-    @app_commands.command(name="chatgpt-chat", description="快来和ChatGPT聊天吧")
+    @app_commands.command(name="chatgpt-chat", description="和ChatGPT聊天吧")
     async def chat(self, interaction: discord.Interaction, *, message: str):
-        if interaction.user == self.client.user:
+        if interaction.user == client.user:
             return
         username = str(interaction.user)
         user_message = message
         channel = str(interaction.channel)
         await send_message(interaction, user_message)
 
-    @app_commands.command(name="chatgpt-private", description="转为仅自己可见")
+    @app_commands.command(name="chatgpt-private", description="将回复信息转为仅自己可见")
     async def private(self, interaction: discord.Interaction):
         global isPrivate
         await interaction.response.defer(ephemeral=False)
         if not isPrivate:
             isPrivate = not isPrivate
             await interaction.followup.send(
-                "> **Info: 接下来的回复将只能由你自己可见，如果你想所有人看到chatGPT的回复，请使用`/public`指令**")
+                "> **Info: 接下来, 机器人将通过私人模式发送响应。如果要切换回公共模式, 请使用 `/public`**")
         else:
             await interaction.followup.send(
-                "> **Warn: 你已经设置过仅自己可见，如果你想所有人看到chatGPT的回复，请使用`/public`指令**")
+                "> **Warn: 你已经进入私人模式了。如果你想切换到公共模式, 请使用 `/public`**")
 
-    @app_commands.command(name="chatgpt-public", description="转为所有人可见")
+    @app_commands.command(name="chatgpt-public", description="将回复信息转为所有人可见")
     async def public(self, interaction: discord.Interaction):
         global isPrivate
         await interaction.response.defer(ephemeral=False)
         if isPrivate:
             isPrivate = not isPrivate
             await interaction.followup.send(
-                "> **Info: 接下来的回复将直接发送到聊天频道中，如果你只想自己看到chatGPT的回复，请使用`/private`指令**")
+                "> **Info: 接下来, 响应将直接发送到频道。如果你想切换回私有模式, 请使用 `/private`**")
         else:
             await interaction.followup.send(
-                "> **Warn: 你已经设置过所有人可见，如果你只想自己看到chatGPT的回复，请使用`/private`指令**")
+                "> **Warn: 你已经进入公共模式了。如果你想切换到私有模式, 请使用 `/private`**")
+
+    @app_commands.command(name="chatgpt-model", description="切换chatGPT引擎")
+    @app_commands.choices(choices=[
+        app_commands.Choice(name="Official GPT-3.5", value="OFFICIAL"),
+        app_commands.Choice(name="Website ChatGPT", value="UNOFFCIAL")
+    ])
+    async def chat_model(self, interaction: discord.Interaction, choices: app_commands.Choice[str]):
+        global chat_model
+        await interaction.response.defer(ephemeral=False)
+        if choices.value == "OFFICIAL":
+            chat_model = "OFFICIAL"
+            await interaction.followup.send(
+                "> **Info: 你现在正在使用付费版GPT-3.5模型。**")
+        elif choices.value == "UNOFFCIAL":
+            chat_model = "UNOFFICIAL"
+            await interaction.followup.send(
+                "> **Info: 你正在使用免费版网页chatGPT。**")
+
+    @app_commands.command(name="chatgpt-reset", description="清理chatGPT历史记录")
+    async def reset(self, interaction: discord.Interaction):
+        if chat_model == "OFFICIAL":
+            responses.offical_chatbot.reset()
+        elif chat_model == "UNOFFICIAL":
+            responses.unofficial_chatbot.reset_chat()
+        await interaction.response.defer(ephemeral=False)
+        await interaction.followup.send("> **Info: 已完成清理。**")
 
 
 async def setup(client):
-    await client.add_cog(aclient(client))
+    await client.add_cog(Chat(client))
