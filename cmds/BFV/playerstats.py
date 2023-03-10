@@ -174,7 +174,7 @@ def get_vehicles():
         trans_names.clear()
         trans_kills.clear()
         trans_time.clear()
-        
+
         return plane_embed, tank_embed, trans_embed
     except Exception as e:
         return discord.Embed(title="异常错误", description=f"错误信息：{e}", colour=0xf44336)
@@ -187,12 +187,15 @@ class Button(discord.ui.View):
         self.plane = discord.ui.Button(label="飞机数据", style=discord.ButtonStyle.success)
         self.tank = discord.ui.Button(label="坦克数据", style=discord.ButtonStyle.success)
         self.trans = discord.ui.Button(label="运输载具数据", style=discord.ButtonStyle.success)
+        self.back = discord.ui.Button(label="返回", style=discord.ButtonStyle.success)
         self.add_item(self.plane)
         self.add_item(self.tank)
         self.add_item(self.trans)
+        self.add_item(self.back)
         self.plane.callback = plane
         self.tank.callback = tank
         self.trans.callback = trans
+        self.back.callback = back
 
 
 async def plane(interaction: discord.Interaction):
@@ -217,6 +220,11 @@ async def trans(interaction: discord.Interaction):
         await interaction.response.edit_message(embed=embeds[2])
     else:
         await interaction.response.edit_message(embed=embeds)
+
+
+async def back(interaction: discord.Interaction):
+    embed = get_playerstats()
+    await interaction.response.edit_message(embed=embed)
 
 
 class Playerstats(InitCog):
