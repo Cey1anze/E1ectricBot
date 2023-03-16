@@ -1,9 +1,13 @@
+import os
+
 import discord
+import openai
+from random import randrange
 from discord import app_commands
-from Basic_main import client
-from Core.init_cog import InitCog
-from Basic_bot.cmds.chatGPT import responses
+
 from Core import loadjson
+from Core.init_cog import InitCog
+from cmds.chatGPT import responses, art, personas
 
 config = loadjson.load_chatconfig()
 
@@ -63,7 +67,7 @@ class Chat(InitCog):
 
     @app_commands.command(name="chatgpt-chat", description="和ChatGPT聊天吧")
     async def chat(self, interaction: discord.Interaction, *, message: str):
-        if interaction.user == client.user:
+        if interaction.user == self.client.user:
             return
         username = str(interaction.user)
         user_message = message
@@ -77,10 +81,10 @@ class Chat(InitCog):
         if not isPrivate:
             isPrivate = not isPrivate
             await interaction.followup.send(
-                "> **Info: 接下来, 机器人将通过私人模式发送响应。如果要切换回公共模式, 请使用 `/public`**")
+                "> **Info: 接下来, 响应将仅自己可见。如需切换回公共模式, 请使用 `/public`**")
         else:
             await interaction.followup.send(
-                "> **Warn: 你已经进入私人模式了。如果你想切换到公共模式, 请使用 `/public`**")
+                "> **Warn: 你已进入私人模式。如需切换到公共模式, 请使用 `/public`**")
 
     @app_commands.command(name="chatgpt-public", description="将回复信息转为所有人可见")
     async def public(self, interaction: discord.Interaction):
@@ -89,10 +93,10 @@ class Chat(InitCog):
         if isPrivate:
             isPrivate = not isPrivate
             await interaction.followup.send(
-                "> **Info: 接下来, 响应将直接发送到频道。如果你想切换回私有模式, 请使用 `/private`**")
+                "> **Info: 接下来, 响应将会被所有人可见。如需切换回私人模式, 请使用 `/private`**")
         else:
             await interaction.followup.send(
-                "> **Warn: 你已经进入公共模式了。如果你想切换到私有模式, 请使用 `/private`**")
+                "> **Warn: 你已进入公共模式。如需切换回私人模式, 请使用 `/private`**")
 
     @app_commands.command(name="chatgpt-model", description="切换chatGPT引擎")
     @app_commands.choices(choices=[
@@ -105,20 +109,111 @@ class Chat(InitCog):
         if choices.value == "OFFICIAL":
             chat_model = "OFFICIAL"
             await interaction.followup.send(
-                "> **Info: 你现在正在使用付费版GPT-3.5模型。**")
+                "> **Info: 你现在正在使用付费版**")
         elif choices.value == "UNOFFCIAL":
             chat_model = "UNOFFICIAL"
             await interaction.followup.send(
-                "> **Info: 你正在使用免费版网页chatGPT。**")
+                "> **Info: 你正在使用免费版**")
 
     @app_commands.command(name="chatgpt-reset", description="清理chatGPT历史记录")
     async def reset(self, interaction: discord.Interaction):
         if chat_model == "OFFICIAL":
-            responses.offical_chatbot.reset()
+            responses.chatbot.reset()
         elif chat_model == "UNOFFICIAL":
-            responses.unofficial_chatbot.reset_chat()
+            responses.chatbot.reset_chat()
         await interaction.response.defer(ephemeral=False)
         await interaction.followup.send("> **Info: 已完成清理。**")
+
+    @app_commands.command(name="chatgpt-draw", description="使用Dalle2模型生成图像")
+    async def draw(self, interaction: discord.Interaction, *, prompt: str):
+        if interaction.user == self.client.user:
+            return
+
+        # await interaction.response.defer(ephemeral=False)
+        username = str(interaction.user)
+        channel = str(interaction.channel)
+
+        await interaction.response.defer(thinking=True)
+        try:
+            img = await art.draw(prompt)
+
+            file = discord.File(img, filename="image.png")
+            title = '> **' + prompt + '**\n'
+            embed = discord.Embed(title=title)
+            embed.set_image(url="attachment://image.png")
+
+            # send image in an embed
+            await interaction.followup.send(file=file, embed=embed)
+
+            file.close()
+            os.remove(img)
+
+        except openai.InvalidRequestError:
+            await interaction.followup.send(
+                "> **Warn: 请求错误 😿**")
+
+        except Exception as e:
+            await interaction.followup.send(
+                "> **Warn: 出错了 😿**")
+
+    @app_commands.command(name="chatgpt-switchpersona",
+                          description="在可选的chatGPT'越狱模型'之间切换,使用某些角色可能产生粗俗或令人不安的内容。使用时请自行承担风险!!!")
+    @app_commands.choices(persona=[
+        app_commands.Choice(name="Random", value="random"),
+        app_commands.Choice(name="Standard", value="standard"),
+        app_commands.Choice(name="Do Anything Now 11.0", value="dan"),
+        app_commands.Choice(name="Superior Do Anything", value="sda"),
+        app_commands.Choice(name="Evil Confidant", value="confidant"),
+        app_commands.Choice(name="BasedGPT v2", value="based"),
+        app_commands.Choice(name="OPPO", value="oppo"),
+        app_commands.Choice(name="Developer Mode v2", value="dev")
+    ])
+    async def switch(self, interaction: discord.Interaction, persona: app_commands.Choice[str]):
+        if interaction.user == self.client.user:
+            return
+
+        await interaction.response.defer(thinking=True)
+        username = str(interaction.user)
+        channel = str(interaction.channel)
+
+        persona = persona.value
+
+        if persona == personas.current_persona:
+            await interaction.followup.send(f"> **Warn: 当前为 `{persona}` 角色，无需再次切换**")
+
+        elif persona == "standard":
+            chat_model = config["CHAT_MODEL"]
+            if chat_model == "OFFICIAL":
+                responses.chatbot.reset()
+            elif chat_model == "UNOFFICIAL":
+                responses.chatbot.reset_chat()
+
+            personas.current_persona = "standard"
+            await interaction.followup.send(
+                f"> **Info: 已切换至 `{persona}` 角色**")
+
+        elif persona == "random":
+            choices = list(personas.PERSONAS.keys())
+            choice = randrange(0, 6)
+            chosen_persona = choices[choice]
+            personas.current_persona = chosen_persona
+            await responses.switch_persona(chosen_persona)
+            await interaction.followup.send(
+                f"> **Info: 已切换至 `{chosen_persona}` 角色**")
+
+        elif persona in personas.PERSONAS:
+            try:
+                await responses.switch_persona(persona)
+                personas.current_persona = persona
+                await interaction.followup.send(
+                    f"> **Info: 已切换至 `{persona}` 角色**")
+            except Exception as e:
+                await interaction.followup.send(
+                    "> **Error: 出了点问题，请稍后再试! 😿**")
+
+        else:
+            await interaction.followup.send(
+                f"> **Error: 没有可用的角色: `{persona}` 😿**")
 
 
 async def setup(client):
