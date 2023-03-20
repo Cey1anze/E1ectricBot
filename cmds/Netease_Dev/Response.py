@@ -46,6 +46,18 @@ def music_stoped() -> discord.Embed:
     return discord.Embed(title='已停止播放', colour=discord.Color.green())
 
 
+def track_info(song_name, author, album_name, publish_time, album_pic_url) -> discord.Embed:
+    track_embed = discord.Embed(title='歌曲信息', colour=discord.Colour.green())
+    track_embed.add_field(name='歌名', value=song_name, inline=False)
+    track_embed.add_field(name='歌手', value=author, inline=False)
+    track_embed.add_field(name='专辑', value=album_name, inline=False)
+    track_embed.add_field(name='发行时间',
+                          value=publish_time,
+                          inline=False)
+    track_embed.set_thumbnail(url=album_pic_url)
+    return track_embed
+
+
 class Response(InitCog):
     pass
 
