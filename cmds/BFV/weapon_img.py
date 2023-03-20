@@ -13,7 +13,7 @@ kpm_data = []
 data = None
 
 
-def get_img(name, platform):
+async def get_img(name, platform):
     global kill_data, headshot_data, accuracy_data, kpm_data, data
     del data, kill_data, headshot_data, accuracy_data, kpm_data
     plt.close()
@@ -115,7 +115,7 @@ class Weapon(InitCog):
         global data
         await interaction.response.defer()
         try:
-            result = get_img(name, platform=option)
+            result = await get_img(name, platform=option)
             if isinstance(result, discord.Embed):
                 await interaction.followup.send(embed=result)
             elif isinstance(result, io.BytesIO):
